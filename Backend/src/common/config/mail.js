@@ -1,7 +1,9 @@
 import nodemailer from "nodemailer";
 import ApiError from "../utils/api-error.js";
 
-let transporter;
+let devTransporter;
+let gmailTransporter;
+let brevoTransporter;
 
 const appName = process.env.APP_NAME || "PollPulse";
 
@@ -11,9 +13,7 @@ const getAppUrl = () => {
 
 const getFrontendUrl = () => {
   // Prefer explicit frontend URL if provided (better UX: sends user to app pages)
-  return (
-    process.env.CLIENT_URL || getAppUrl()
-  );
+  return process.env.CLIENT_URL || getAppUrl();
 };
 
 // const getClientUrl = () => {
@@ -151,11 +151,9 @@ If you did not request a password reset, you can ignore this email.
   };
 };
 
-const getTransporter = () => {
-  if (transporter) return transporter;
-
-  if (process.env.NODE_ENV === "development") {
-    transporter = nodemailer.createTransport({
+const getDevTransporter = () => {
+  if (!devTransporter) {
+    devTransporter = nodemailer.createTransport({
       host: process.env.MAILTRAP_HOST,
       port: Number(process.env.MAILTRAP_PORT),
       auth: {
@@ -163,44 +161,186 @@ const getTransporter = () => {
         pass: process.env.MAILTRAP_PASSWORD,
       },
     });
-  } else {
-    transporter = nodemailer.createTransport({
-      host: process.env.GMAIL_HOST,
-      port: Number(process.env.GMAIL_PORT),
-      secure: Number(process.env.GMAIL_PORT) === 465, //STARTTLS uses if false otherwise SSL/TLS
+  }
+  return devTransporter;
+};
+
+const getGmailTransporter = () => {
+  if (!gmailTransporter) {
+    gmailTransporter = nodemailer.createTransport({
+      host: process.env.GMAIL_HOST || "smtp.gmail.com",
+      port: Number(process.env.GMAIL_PORT || 465),
+      secure: Number(process.env.GMAIL_PORT || 465) === 465,
       auth: {
         user: process.env.GMAIL_USER,
         pass: process.env.GMAIL_PASSWORD,
       },
     });
   }
+  return gmailTransporter;
+};
 
-  return transporter;
+const getBrevoTransporter = () => {
+  if (!brevoTransporter) {
+    brevoTransporter = nodemailer.createTransport({
+      host: process.env.BREVO_HOST || "smtp-relay.brevo.com",
+      port: Number(process.env.BREVO_PORT || 587),
+      secure: Number(process.env.BREVO_PORT) === 465,
+      auth: {
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASSWORD,
+      },
+    });
+  }
+  return brevoTransporter;
 };
 
 const verifyTransporter = async () => {
-  try {
-    await getTransporter().verify();
-    console.log("Server is ready to take our messages");
-  } catch (error) {
-    throw ApiError.badRequest(`verification failed : ${error.message}`);
+  if (process.env.NODE_ENV === "development") {
+    try {
+      await getDevTransporter().verify();
+      console.log("Mailtrap is ready");
+    } catch (error) {
+      throw ApiError.badRequest(
+        `Mailtrap verification failed: ${error.message}`,
+      );
+    }
+    return;
+  }
+
+  let isReady = false;
+  if (process.env.GMAIL_USER) {
+    try {
+      await getGmailTransporter().verify();
+      console.log("Gmail SMTP is ready");
+      isReady = true;
+    } catch (error) {
+      console.warn(`Gmail verification failed: ${error.message}`);
+    }
+  }
+
+  if (!isReady && process.env.BREVO_USER) {
+    try {
+      await getBrevoTransporter().verify();
+      console.log("Brevo SMTP is ready");
+      isReady = true;
+    } catch (error) {
+      console.warn(`Brevo verification failed: ${error.message}`);
+    }
+  }
+
+  if (!isReady && process.env.BREVO_API_KEY) {
+    console.log(
+      "SMTP transporters failed, but Brevo API key is present. Ready to fallback to HTTP API.",
+    );
+    isReady = true;
+  }
+
+  if (!isReady) {
+    throw ApiError.badRequest(
+      "All production email methods failed verification.",
+    );
   }
 };
 
 const sendEmail = async ({ to, subject, html, text }) => {
-  const from =
-    process.env.MAIL_FROM ||
-    process.env.GMAIL_USER ||
-    process.env.MAILTRAP_USER;
-  const info = await getTransporter().sendMail({
-    from: `"${appName}" <${from}>`,
-    to,
-    subject,
-    html,
-    text,
-  });
+  const fromName = appName;
 
-  console.log(`Email has been sent to ${info.messageId}`);
+  // 1. Development: Mailtrap
+  if (process.env.NODE_ENV === "development") {
+    const from = process.env.MAIL_FROM || process.env.MAILTRAP_USER;
+    const info = await getDevTransporter().sendMail({
+      from: `"${fromName}" <${from}>`,
+      to,
+      subject,
+      html,
+      text,
+    });
+    console.log(`Email sent via Mailtrap to ${info.messageId}`);
+    return;
+  }
+
+  let lastError;
+
+  // 2. Production: Try Gmail SMTP
+  if (process.env.GMAIL_USER && process.env.GMAIL_PASSWORD) {
+    try {
+      const from = process.env.MAIL_FROM || process.env.GMAIL_USER;
+      const info = await getGmailTransporter().sendMail({
+        from: `"${fromName}" <${from}>`,
+        to,
+        subject,
+        html,
+        text,
+      });
+      console.log(`Email sent via Gmail to ${info.messageId}`);
+      return;
+    } catch (error) {
+      console.warn(`Gmail SMTP failed: ${error.message}. Falling back...`);
+      lastError = error;
+    }
+  }
+
+  // 3. Production: Try Brevo SMTP
+  if (process.env.BREVO_USER && process.env.BREVO_PASSWORD) {
+    try {
+      const from = process.env.MAIL_FROM || process.env.BREVO_USER;
+      const info = await getBrevoTransporter().sendMail({
+        from: `"${fromName}" <${from}>`,
+        to,
+        subject,
+        html,
+        text,
+      });
+      console.log(`Email sent via Brevo SMTP to ${info.messageId}`);
+      return;
+    } catch (error) {
+      console.warn(
+        `Brevo SMTP failed: ${error.message}. Falling back to API...`,
+      );
+      lastError = error;
+    }
+  }
+
+  // 4. Production: Brevo HTTP API (Bypasses Render SMTP port blocks!)
+  if (process.env.BREVO_API_KEY) {
+    try {
+      console.log("Attempting to send email via Brevo HTTP API...");
+      const from =
+        process.env.MAIL_FROM ||
+        process.env.BREVO_USER ||
+        "noreply@pollpulse.com";
+      const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: { name: fromName, email: from },
+          to: [{ email: to }],
+          subject: subject,
+          htmlContent: html,
+          textContent: text,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Brevo API Error: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log(`Email sent via Brevo API to ${data.messageId}`);
+      return;
+    } catch (error) {
+      console.error(`Brevo HTTP API failed: ${error.message}`);
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("All configured email delivery methods failed.");
 };
 
 const verificationEmail = async (userMail, token) => {

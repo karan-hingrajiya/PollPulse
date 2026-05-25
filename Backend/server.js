@@ -18,14 +18,19 @@ initSocket(httpServer);
 
 const server = async function () {
   await connectDB();
-  if (process.env.NODE_ENV !== "development") {
-    await verifyTransporter();
+  
+  try {
+    if (process.env.NODE_ENV !== "development") {
+      await verifyTransporter();
+    }
+  } catch (error) {
+    console.warn("Mail verification failed (non-fatal). Server will still start:", error.message);
   }
   await initUserDB();
   await initPollsDb();
   await initResponseDB();
 
-  httpServer.listen(PORT, () => {
+  httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(
       `Server running on port ${PORT} in ${process.env.NODE_ENV} mode`,
     );
