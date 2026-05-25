@@ -13,7 +13,7 @@ const getAppUrl = () => {
 
 const getFrontendUrl = () => {
   // Prefer explicit frontend URL if provided (better UX: sends user to app pages)
-  return process.env.CLIENT_URL || getAppUrl();
+  return process.env.CLIENT_URL || "https://poll-pulse-five.vercel.app";
 };
 
 // const getClientUrl = () => {
