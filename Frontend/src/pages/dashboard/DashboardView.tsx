@@ -1,0 +1,395 @@
+import Navbar from "../../components/layout/Navbar";
+import Card from "../../components/pollpulse/Card";
+import Badge from "../../components/pollpulse/Badge";
+import Button from "../../components/pollpulse/Button";
+import { Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import type { AnalyticsOverview, DashboardPoll, DashboardUser } from "./types";
+import {
+  BinIcon,
+  OrbitClockIcon,
+  PeoplePulseIcon,
+  RadarEyeIcon,
+  RocketIcon,
+  ScrollIcon,
+  ShieldCheckIcon,
+  SparkPlusIcon,
+  StackBarsIcon,
+  WarningHexIcon,
+} from "./components/DashboardIcons";
+
+interface DashboardViewProps {
+  user: DashboardUser | null;
+  polls: DashboardPoll[];
+  overview: AnalyticsOverview | null;
+  isLoading: boolean;
+  error: string | null;
+  deletingPollId?: string | null;
+  onRetry: () => void;
+  onCreatePoll?: () => void;
+  onDeletePoll?: (pollId: string) => Promise<void>;
+  onPollClick?: (pollId: string) => void;
+}
+
+function formatDate(dateStr?: string): string {
+  if (!dateStr) return "-";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function isExpired(expiresAt?: string): boolean {
+  if (!expiresAt) return false;
+  return new Date(expiresAt) < new Date();
+}
+
+function StatCard({
+  label,
+  value,
+  icon,
+  accentClass,
+}: {
+  label: string;
+  value: string | number;
+  icon: React.ReactNode;
+  accentClass: string;
+}) {
+  return (
+    <Card className="p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-[#a1a1aa] text-sm font-medium">{label}</p>
+          <p className="text-2xl font-bold text-white mt-1.5">{value}</p>
+        </div>
+        <div className={`p-2.5 rounded-lg border ${accentClass}`}>{icon}</div>
+      </div>
+    </Card>
+  );
+}
+
+function PollCard({
+  poll,
+  onDelete,
+  isDeleting,
+  onPollClick,
+}: {
+  poll: DashboardPoll;
+  onDelete?: (pollId: string) => void;
+  isDeleting?: boolean;
+  onPollClick?: (pollId: string) => void;
+}) {
+  const expired = isExpired(poll.expiresAt);
+
+  return (
+    <Card>
+      <div className="p-5">
+        <h3 className="text-white font-semibold text-base leading-snug line-clamp-1">
+          {poll.title}
+        </h3>
+
+        {poll.description && (
+          <p className="text-[#a1a1aa] text-sm mt-2 line-clamp-2 leading-relaxed">
+            {poll.description}
+          </p>
+        )}
+
+        <div className="flex flex-wrap gap-2 mt-4">
+          {poll.isPublished ? (
+            <Badge variant="green">
+              <RadarEyeIcon width={14} height={14} />
+              Published
+            </Badge>
+          ) : (
+            <Badge variant="gray">
+              <ScrollIcon width={14} height={14} />
+              Draft
+            </Badge>
+          )}
+
+          {poll.isAnonymous ? (
+            <Badge variant="purple">
+              <ShieldCheckIcon width={14} height={14} />
+              Anonymous
+            </Badge>
+          ) : (
+            <Badge variant="blue">
+              <ShieldCheckIcon width={14} height={14} />
+              Authenticated
+            </Badge>
+          )}
+
+          {expired ? (
+            <Badge variant="red">
+              <WarningHexIcon width={14} height={14} />
+              Expired
+            </Badge>
+          ) : (
+            <Badge variant="indigo">
+              <OrbitClockIcon width={14} height={14} />
+              Active
+            </Badge>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between mt-4 text-xs text-[#a1a1aa]">
+          <div className="flex items-center gap-1.5">
+            <PeoplePulseIcon width={15} height={15} />
+            <span className="font-medium text-[#e4e4e7]">
+              {poll.totalResponses ?? 0}
+            </span>
+            responses
+          </div>
+          <span>{formatDate(poll.createdAt)}</span>
+        </div>
+      </div>
+
+      <div className="px-5 py-3 border-t border-[#2a2a2a] flex items-center justify-between">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onPollClick?.(poll._id)}
+        >
+          <StackBarsIcon width={14} height={14} />
+          View Analytics
+        </Button>
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button
+              className="p-2 rounded-lg text-[#52525b] border border-transparent hover:text-red-400 hover:bg-red-400/10 transition-colors disabled:opacity-50"
+              title="Delete Poll"
+              disabled={isDeleting}
+            >
+              {isDeleting ? (
+                <Loader2 className="w-4 h-4 animate-spin text-red-400" />
+              ) : (
+                <BinIcon width={16} height={16} />
+              )}
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription className="text-[#a1a1aa]">
+                This action cannot be undone. This will permanently delete your
+                poll
+                <span className="font-semibold text-white">
+                  {" "}
+                  "{poll.title}"{" "}
+                </span>
+                and all associated responses.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-transparent border-[#2a2a2a] text-white hover:bg-[#2a2a2a] hover:text-white">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20"
+                onClick={() => onDelete?.(poll._id)}
+              >
+                Yes, delete poll
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+    </Card>
+  );
+}
+
+function SkeletonCard() {
+  return (
+    <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 animate-pulse">
+      <div className="h-4 bg-[#2a2a2a] rounded w-3/4 mb-3" />
+      <div className="h-3 bg-[#2a2a2a] rounded w-full mb-2" />
+      <div className="h-3 bg-[#2a2a2a] rounded w-2/3 mb-4" />
+      <div className="h-5 bg-[#2a2a2a] rounded-full w-24 mb-4" />
+      <div className="flex justify-between">
+        <div className="h-3 bg-[#2a2a2a] rounded w-24" />
+        <div className="h-3 bg-[#2a2a2a] rounded w-20" />
+      </div>
+      <div className="mt-4 pt-3 border-t border-[#2a2a2a] flex justify-between">
+        <div className="h-8 bg-[#2a2a2a] rounded w-28" />
+        <div className="h-8 bg-[#2a2a2a] rounded w-8" />
+      </div>
+    </div>
+  );
+}
+
+export default function DashboardView({
+  user,
+  polls,
+  overview,
+  isLoading,
+  error,
+  deletingPollId,
+  onRetry,
+  onCreatePoll,
+  onDeletePoll,
+  onPollClick
+}: DashboardViewProps) {
+  return (
+    <div className="min-h-screen bg-[#0f0f0f]">
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: "url(/pattern-dots.png)",
+          backgroundSize: "600px 600px",
+          backgroundRepeat: "repeat",
+        }}
+      />
+
+      <Navbar user={user || undefined} />
+
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Your Polls
+            </h1>
+            <p className="text-[#a1a1aa] text-sm mt-1">
+              Live dashboard connected to your analytics and poll data
+            </p>
+          </div>
+          <Button className="gap-2 self-start" onClick={onCreatePoll}>
+            <SparkPlusIcon width={15} height={15} />
+            Create Poll
+          </Button>
+        </div>
+
+        {error && (
+          <Card className="p-4 mb-6 border-red-500/20 bg-red-500/5">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm text-red-300">{error}</p>
+              <Button variant="outline" size="sm" onClick={onRetry}>
+                Retry
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+          <StatCard
+            label="Total Polls"
+            value={isLoading ? "-" : (overview?.totalPolls ?? 0)}
+            icon={<ScrollIcon />}
+            accentClass="text-[#818cf8] bg-[#6366f1]/10 border-[#6366f1]/20"
+          />
+          <StatCard
+            label="Live Polls"
+            value={isLoading ? "-" : (overview?.livePolls ?? 0)}
+            icon={<OrbitClockIcon />}
+            accentClass="text-emerald-400 bg-emerald-500/10 border-emerald-500/20"
+          />
+          <StatCard
+            label="Published"
+            value={isLoading ? "-" : (overview?.publishedPolls ?? 0)}
+            icon={<RocketIcon />}
+            accentClass="text-sky-400 bg-sky-500/10 border-sky-500/20"
+          />
+          <StatCard
+            label="Total Responses"
+            value={
+              isLoading ? "-" : (overview?.totalResponses ?? 0).toLocaleString()
+            }
+            icon={<PeoplePulseIcon />}
+            accentClass="text-amber-400 bg-amber-500/10 border-amber-500/20"
+          />
+          <StatCard
+            label="Draft Polls"
+            value={isLoading ? "-" : (overview?.draftPolls ?? 0)}
+            icon={<ScrollIcon />}
+            accentClass="text-violet-400 bg-violet-500/10 border-violet-500/20"
+          />
+          <StatCard
+            label="Expired Polls"
+            value={isLoading ? "-" : (overview?.expiredPolls ?? 0)}
+            icon={<WarningHexIcon />}
+            accentClass="text-rose-400 bg-rose-500/10 border-rose-500/20"
+          />
+          <StatCard
+            label="Responses Today"
+            value={
+              isLoading
+                ? "-"
+                : (overview?.totalResponsesToday ?? 0).toLocaleString()
+            }
+            icon={<PeoplePulseIcon />}
+            accentClass="text-teal-400 bg-teal-500/10 border-teal-500/20"
+          />
+          <StatCard
+            label="Completion Rate"
+            value={
+              isLoading
+                ? "-"
+                : `${overview?.overallCompletionRatePercent ?? 0}%`
+            }
+            icon={<StackBarsIcon />}
+            accentClass="text-orange-400 bg-orange-500/10 border-orange-500/20"
+          />
+        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        ) : polls.length === 0 ? (
+          <Card className="border-dashed border-[#2a2a2a]">
+            <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+              <div className="relative mb-8">
+                <div className="absolute inset-0 bg-[#6366f1]/20 blur-3xl rounded-full scale-75" />
+                <img
+                  src="/empty-state.png"
+                  alt="No polls yet"
+                  className="relative w-64 h-64 object-contain drop-shadow-[0_0_30px_rgba(99,102,241,0.2)]"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                No polls yet
+              </h3>
+              <p className="text-[#a1a1aa] text-sm max-w-sm mb-8 leading-relaxed">
+                Create your first poll to start collecting responses. It&apos;s
+                quick, easy, and your respondents will love the clean
+                experience.
+              </p>
+              <Button onClick={onCreatePoll} className="gap-2">
+                <SparkPlusIcon width={15} height={15} />
+                Create your first poll
+              </Button>
+            </div>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {polls.map((poll) => (
+              <PollCard
+                key={poll._id}
+                poll={poll}
+                onDelete={onDeletePoll}
+                onPollClick={onPollClick}
+                isDeleting={deletingPollId === poll._id}
+              />
+            ))}
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
