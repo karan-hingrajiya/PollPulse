@@ -1,5 +1,5 @@
-import app from "./src/app.js";
 import "dotenv/config";
+import app from "./src/app.js";
 import { createServer } from "http";
 import { connectDB } from "./src/common/config/db/connection.js";
 import initUserDB from "./src/common/config/db/init_user_schema.js";
