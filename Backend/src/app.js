@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "https://pollpulse-backend-rusz.onrender.com",
+    origin: process.env.CORS_ORIGIN || "https://poll-pulse-five.vercel.app",
     credentials: true,
   })
 );
