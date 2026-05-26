@@ -57,3 +57,15 @@ export const deletePollById = async (req, res) => {
     return ApiResponse.ok(res, "Poll deleted successfully!", result);
   }
 };
+
+export const updateAutoPublishOnExpiry = async (req, res) => {
+  const result = await pollServices.updateAutoPublishOnExpiry(
+    req.params.pollId,
+    req.user.id,
+    req.body?.autoPublishOnExpiry,
+  );
+
+  return ApiResponse.ok(res, "Auto-publish setting updated successfully!", {
+    result,
+  });
+};

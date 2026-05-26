@@ -23,6 +23,11 @@ pollRouter.patch(
   authenticate,
   pollController.sharePollResult,
 );
+pollRouter.patch(
+  "/:pollId/auto-publish",
+  authenticate,
+  pollController.updateAutoPublishOnExpiry,
+);
 pollRouter.delete("/:pollId", authenticate, pollController.deletePollById);
 
 export default pollRouter;

@@ -27,6 +27,12 @@ import {
   StackBarsIcon,
   WarningHexIcon,
 } from "./components/DashboardIcons";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { BarChart, Bar, CartesianGrid, XAxis, PieChart, Pie, Cell } from "recharts";
 
 interface DashboardViewProps {
   user: DashboardUser | null;
@@ -243,6 +249,26 @@ export default function DashboardView({
   onDeletePoll,
   onPollClick
 }: DashboardViewProps) {
+  const pollStatusData = overview
+    ? [
+        { label: "Live", value: overview.livePolls, fill: "#10b981" },
+        { label: "Published", value: overview.publishedPolls, fill: "#38bdf8" },
+        { label: "Draft", value: overview.draftPolls, fill: "#a78bfa" },
+        { label: "Expired", value: overview.expiredPolls, fill: "#fb7185" },
+      ]
+    : [];
+
+  const responsePulseData = overview
+    ? [
+        { label: "Today", value: overview.totalResponsesToday, fill: "#14b8a6" },
+        {
+          label: "Older",
+          value: Math.max(overview.totalResponses - overview.totalResponsesToday, 0),
+          fill: "#6366f1",
+        },
+      ]
+    : [];
+
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
       <div
@@ -343,6 +369,58 @@ export default function DashboardView({
             accentClass="text-orange-400 bg-orange-500/10 border-orange-500/20"
           />
         </div>
+
+        {!isLoading && overview && (
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-8">
+            <Card className="p-5 xl:col-span-2">
+              <p className="text-sm font-semibold text-white mb-4">
+                Poll Status Snapshot
+              </p>
+              <ChartContainer
+                config={{
+                  value: { label: "Polls", color: "#6366f1" },
+                }}
+                className="h-[230px] w-full"
+              >
+                <BarChart data={pollStatusData}>
+                  <CartesianGrid vertical={false} strokeDasharray="3 3" />
+                  <XAxis dataKey="label" tickLine={false} axisLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="value" radius={10} />
+                </BarChart>
+              </ChartContainer>
+            </Card>
+
+            <Card className="p-5">
+              <p className="text-sm font-semibold text-white mb-4">
+                Response Pulse
+              </p>
+              <ChartContainer
+                config={{
+                  today: { label: "Today", color: "#14b8a6" },
+                  older: { label: "Older", color: "#6366f1" },
+                }}
+                className="h-[230px] w-full"
+              >
+                <PieChart>
+                  <Pie
+                    data={responsePulseData}
+                    dataKey="value"
+                    nameKey="label"
+                    innerRadius={55}
+                    outerRadius={88}
+                    paddingAngle={3}
+                  >
+                    {responsePulseData.map((entry) => (
+                      <Cell key={entry.label} fill={entry.fill} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </PieChart>
+              </ChartContainer>
+            </Card>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -10,6 +10,7 @@ import {
   Loader2,
   CalendarIcon,
   AlertCircle,
+  Sparkles,
 } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Card from "@/components/pollpulse/Card";
@@ -250,6 +251,7 @@ export default function CreatePollPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [autoPublishOnExpiry, setAutoPublishOnExpiry] = useState(false);
   const [expiresAt, setExpiresAt] = useState("");
   const [questions, setQuestions] = useState<QuestionDraft[]>(() => [
     makeEmptyQuestion(),
@@ -302,6 +304,7 @@ export default function CreatePollPage() {
         title: title.trim(),
         description: description.trim() || undefined,
         isAnonymous,
+        autoPublishOnExpiry,
         expiresAt: new Date(expiresAt).toISOString(),
         questions: questions.map(({ text, isMandatory, options }) => ({
           text: text.trim(),
@@ -479,6 +482,26 @@ export default function CreatePollPage() {
                 onCheckedChange={setIsAnonymous}
                 className="data-[state=checked]:bg-[#6366f1]"
               />
+            </div>
+
+            <div className="rounded-xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/10 to-cyan-500/5 p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white flex items-center gap-2">
+                    <Sparkles size={14} className="text-emerald-400" />
+                    Auto-publish when poll expires
+                  </p>
+                  <p className="text-xs text-[#a1a1aa] mt-1">
+                    Save time by publishing results automatically right after expiry.
+                    You can change this later in the poll analytics page too.
+                  </p>
+                </div>
+                <Switch
+                  checked={autoPublishOnExpiry}
+                  onCheckedChange={setAutoPublishOnExpiry}
+                  className="data-[state=checked]:bg-emerald-500"
+                />
+              </div>
             </div>
           </Card>
 

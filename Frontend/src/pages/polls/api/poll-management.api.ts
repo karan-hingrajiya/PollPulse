@@ -29,6 +29,16 @@ export async function publishPoll(pollId: string) {
   return res.data;
 }
 
+export async function updateAutoPublishOnExpiry(
+  pollId: string,
+  autoPublishOnExpiry: boolean
+) {
+  const res = await apiClient.patch(`/api/poll/${pollId}/auto-publish`, {
+    autoPublishOnExpiry,
+  });
+  return res.data;
+}
+
 export async function getPublicPoll(token: string): Promise<PublicPoll> {
   const res = await apiClient.get(
     `/api/poll/public/share/${token}`,

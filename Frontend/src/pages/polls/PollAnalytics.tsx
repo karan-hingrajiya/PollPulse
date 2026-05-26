@@ -26,6 +26,7 @@ import Navbar from "@/components/layout/Navbar";
 import { toast } from "sonner";
 import { useState } from "react";
 import type { OptionAnalytics } from "@/pages/dashboard/types";
+import { Switch } from "@/components/ui/switch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,6 +38,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import { PieChart, Pie, Cell, BarChart, Bar, CartesianGrid, XAxis } from "recharts";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -286,9 +293,11 @@ export default function PollAnalyticsPage() {
     isPublishing,
     shareToken,
     shareLoading,
+    autoPublishSaving,
     refetch,
     handlePublish,
     handleGetShareToken,
+    handleAutoPublishToggle,
     changeTrendRange,
   } = usePollAnalytics(pollId!);
 
@@ -495,6 +504,28 @@ export default function PollAnalyticsPage() {
           </div>
         )}
 
+        <div className="mb-8">
+          <Card className="p-4 border-emerald-500/20 bg-emerald-500/5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-white">
+                  Auto-publish at expiry
+                </p>
+                <p className="text-xs text-[#a1a1aa] mt-1">
+                  If enabled, results publish automatically when this poll
+                  expires.
+                </p>
+              </div>
+              <Switch
+                checked={Boolean(overview.autoPublishOnExpiry)}
+                disabled={autoPublishSaving || overview.isPublished}
+                onCheckedChange={handleAutoPublishToggle}
+                className="data-[state=checked]:bg-emerald-500"
+              />
+            </div>
+          </Card>
+        </div>
+
         {/* ── Tabs ── */}
         <Tabs defaultValue="overview">
           <TabsList className="bg-[#1a1a1a] border border-[#2a2a2a] mb-8">
@@ -573,6 +604,83 @@ export default function PollAnalyticsPage() {
                 accent="emerald"
                 sub="answered all mandatory"
               />
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+              <Card className="p-5">
+                <h3 className="text-sm font-semibold text-white mb-4">
+                  Respondent Type Distribution
+                </h3>
+                <ChartContainer
+                  config={{
+                    authenticated: { label: "Authenticated", color: "#38bdf8" },
+                    anonymous: { label: "Anonymous", color: "#a855f7" },
+                  }}
+                  className="h-[230px] w-full"
+                >
+                  <PieChart>
+                    <Pie
+                      data={[
+                        {
+                          key: "authenticated",
+                          label: "Authenticated",
+                          value: overview.authenticatedResponses,
+                          fill: "#38bdf8",
+                        },
+                        {
+                          key: "anonymous",
+                          label: "Anonymous",
+                          value: overview.anonymousResponses,
+                          fill: "#a855f7",
+                        },
+                      ]}
+                      dataKey="value"
+                      nameKey="label"
+                      innerRadius={55}
+                      outerRadius={88}
+                      paddingAngle={3}
+                    >
+                      <Cell fill="#38bdf8" />
+                      <Cell fill="#a855f7" />
+                    </Pie>
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                  </PieChart>
+                </ChartContainer>
+              </Card>
+
+              <Card className="p-5">
+                <h3 className="text-sm font-semibold text-white mb-4">
+                  Answer Coverage
+                </h3>
+                <ChartContainer
+                  config={{
+                    value: { label: "Selections", color: "#10b981" },
+                  }}
+                  className="h-[230px] w-full"
+                >
+                  <BarChart
+                    data={[
+                      {
+                        label: "Answered",
+                        value: overview.totalAnsweredSelections,
+                      },
+                      {
+                        label: "Skipped",
+                        value: Math.max(
+                          overview.totalResponses * overview.totalQuestions -
+                            overview.totalAnsweredSelections,
+                          0
+                        ),
+                      },
+                    ]}
+                  >
+                    <CartesianGrid vertical={false} strokeDasharray="3 3" />
+                    <XAxis dataKey="label" tickLine={false} axisLine={false} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar dataKey="value" fill="#10b981" radius={10} />
+                  </BarChart>
+                </ChartContainer>
+              </Card>
             </div>
 
             {/* Completion breakdown */}

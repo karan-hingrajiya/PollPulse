@@ -39,6 +39,7 @@ export interface PollAnalyticsOverview {
   _id: string;
   title: string;
   isPublished: boolean;
+  autoPublishOnExpiry?: boolean;
   isAnonymous: boolean;
   createdAt: string;
   expiresAt: string;
@@ -110,6 +111,7 @@ export interface CreatePollPayload {
   title: string;
   description?: string;
   isAnonymous: boolean;
+  autoPublishOnExpiry?: boolean;
   expiresAt: string;
   questions: CreatePollQuestion[];
 }

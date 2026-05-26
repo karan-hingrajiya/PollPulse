@@ -19,6 +19,7 @@ class createPollDto extends BaseDto {
     description: Joi.string().min(10).max(1000),
     isPublished: Joi.boolean().default(false),
     isAnonymous: Joi.boolean().default(false),
+    autoPublishOnExpiry: Joi.boolean().default(false),
     expiresAt: Joi.date(),
     questions: Joi.array().items(question).min(1).required(),
   });

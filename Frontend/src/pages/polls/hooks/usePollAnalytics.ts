@@ -4,7 +4,11 @@ import {
   fetchQuestionAnalytics,
   fetchParticipationTrend,
 } from "../api/analytics.api";
-import { publishPoll, getShareToken } from "../api/poll-management.api";
+import {
+  publishPoll,
+  getShareToken,
+  updateAutoPublishOnExpiry,
+} from "../api/poll-management.api";
 import type {
   PollAnalyticsOverview,
   PollQuestionAnalytics,
@@ -26,6 +30,7 @@ export function usePollAnalytics(pollId: string) {
   const [isPublishing, setIsPublishing] = useState(false);
   const [shareToken, setShareToken] = useState<string | null>(null);
   const [shareLoading, setShareLoading] = useState(false);
+  const [autoPublishSaving, setAutoPublishSaving] = useState(false);
 
   const loadData = useCallback(async () => {
     if (!pollId) return;
@@ -108,6 +113,26 @@ export function usePollAnalytics(pollId: string) {
     }
   };
 
+  const handleAutoPublishToggle = async (enabled: boolean) => {
+    if (!pollId) return;
+    setAutoPublishSaving(true);
+    try {
+      await updateAutoPublishOnExpiry(pollId, enabled);
+      setOverview((prev) =>
+        prev ? { ...prev, autoPublishOnExpiry: enabled } : prev
+      );
+      toast.success(
+        enabled
+          ? "Auto-publish on expiry is enabled for this poll."
+          : "Auto-publish on expiry is disabled for this poll."
+      );
+    } catch (err) {
+      toast.error(getUserFriendlyError(err));
+    } finally {
+      setAutoPublishSaving(false);
+    }
+  };
+
   return {
     overview,
     questions,
@@ -119,9 +144,11 @@ export function usePollAnalytics(pollId: string) {
     isPublishing,
     shareToken,
     shareLoading,
+    autoPublishSaving,
     refetch: loadData,
     handlePublish,
     handleGetShareToken,
+    handleAutoPublishToggle,
     changeTrendRange,
   };
 }

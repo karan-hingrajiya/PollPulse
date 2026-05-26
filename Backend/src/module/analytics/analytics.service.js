@@ -232,6 +232,7 @@ export const getOverviewOfPoll = async (userId, pollId) => {
           _id: 1,
           title: 1,
           isPublished: 1,
+          autoPublishOnExpiry: 1,
           isAnonymous: 1,
           createdAt: 1,
           expiresAt: 1,

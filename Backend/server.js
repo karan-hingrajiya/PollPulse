@@ -7,6 +7,7 @@ import { verifyTransporter } from "./src/common/config/mail.js";
 import initPollsDb from "./src/common/config/db/init_polls_schema.js";
 import initResponseDB from "./src/common/config/db/init_response_schema.js";
 import { initSocket } from "./src/common/config/socket.js";
+import { startPollAutoPublishJob } from "./src/common/jobs/poll-auto-publish.job.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -29,6 +30,7 @@ const server = async function () {
   await initUserDB();
   await initPollsDb();
   await initResponseDB();
+  startPollAutoPublishJob();
 
   httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(

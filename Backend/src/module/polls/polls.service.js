@@ -67,6 +67,7 @@ export const createPoll = async (payload, userId) => {
     expiresAt: expiresIn,
     isPublished: payload.isPublished || false,
     isAnonymous: payload.isAnonymous || false,
+    autoPublishOnExpiry: Boolean(payload.autoPublishOnExpiry),
     questions: questionsArr,
     ...(typeof payload.description === "string" &&
     payload.description.trim().length > 0
@@ -362,4 +363,41 @@ export const deletePollById = async (pollId, userId) => {
     pollId,
     message: "poll is successfully deleted",
   };
+};
+
+export const updateAutoPublishOnExpiry = async (
+  pollId,
+  userId,
+  autoPublishOnExpiry,
+) => {
+  if (!ObjectId.isValid(pollId)) {
+    throw ApiError.badRequest("Invalid poll ID format");
+  }
+
+  if (typeof autoPublishOnExpiry !== "boolean") {
+    throw ApiError.badRequest(
+      "Auto-publish setting must be true or false.",
+    );
+  }
+
+  const polls = getCollection("polls");
+  const updated = await polls.findOneAndUpdate(
+    { _id: new ObjectId(pollId), createdBy: new ObjectId(userId) },
+    { $set: { autoPublishOnExpiry } },
+    {
+      returnDocument: "after",
+      projection: {
+        _id: 1,
+        autoPublishOnExpiry: 1,
+        isPublished: 1,
+        expiresAt: 1,
+      },
+    },
+  );
+
+  if (!updated) {
+    throw ApiError.notFound("This poll doesn't exist");
+  }
+
+  return updated;
 };
