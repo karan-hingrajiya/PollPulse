@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router";
@@ -9,6 +8,7 @@ import Button from "@/components/pollpulse/Button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { apiClient } from "@/common/api-client";
+import { getUserFriendlyError } from "@/common/error-handler";
 
 interface LoginProps {
   onLoginSuccess?: () => void;
@@ -71,7 +71,7 @@ export default function Login({
         );
         setIsUnverified(true);
       } else {
-        setError(message);
+        setError(getUserFriendlyError(err));
       }
     } finally {
       setIsLoading(false);
@@ -93,11 +93,7 @@ export default function Login({
       localStorage.setItem("pendingVerificationEmail", normalizedEmail);
       toast.success("Verification email sent. Please check your inbox.");
     } catch (err: unknown) {
-      const message =
-        err instanceof Error
-          ? err.message
-          : "Failed to resend verification email";
-      setError(message);
+      setError(getUserFriendlyError(err));
     } finally {
       setIsResending(false);
     }

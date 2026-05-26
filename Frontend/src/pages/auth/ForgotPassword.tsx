@@ -5,6 +5,7 @@ import AuthLayout from "./components/AuthLayout";
 import Button from "@/components/pollpulse/Button";
 import { cn } from "@/lib/utils";
 import { apiClient } from "@/common/api-client";
+import { getUserFriendlyError } from "@/common/error-handler";
 
 interface ForgotPasswordProps {
   onNavigateToLogin?: () => void;
@@ -41,7 +42,7 @@ export default function ForgotPassword({
       if (message.toLowerCase().includes("email does not exist")) {
         setError("No account found with this email address.");
       } else {
-        setError(message);
+        setError(getUserFriendlyError(err));
       }
     } finally {
       setIsLoading(false);

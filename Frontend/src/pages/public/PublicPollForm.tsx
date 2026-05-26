@@ -26,6 +26,7 @@ import type {
 import Card from "@/components/pollpulse/Card";
 import Button from "@/components/pollpulse/Button";
 import { PollPulseLogo } from "@/components/layout/Navbar";
+import { getUserFriendlyError } from "@/common/error-handler";
 
 // ─── Fingerprint ─────────────────────────────────────────────────────────────
 
@@ -61,6 +62,18 @@ function isExpired(expiresAt: string) {
   return new Date(expiresAt) < new Date();
 }
 
+function isDuplicateSubmissionError(message: string) {
+  const msg = message.toLowerCase();
+  return (
+    msg.includes("already been submitted") ||
+    msg.includes("already submitted") ||
+    msg.includes("already answered") ||
+    msg.includes("already responded") ||
+    msg.includes("duplicate") ||
+    msg.includes("response already")
+  );
+}
+
 // ─── Status Screens ───────────────────────────────────────────────────────────
 
 function StatusScreen({
@@ -93,10 +106,12 @@ type PageState =
   | "loading"
   | "form"
   | "submitted"
+  | "already_submitted"
   | "expired"
   | "not_found"
   | "published"
-  | "auth_required";
+  | "auth_required"
+  | "error";
 
 export default function PublicPollForm() {
   const { token } = useParams<{ token: string }>();
@@ -112,6 +127,12 @@ export default function PublicPollForm() {
   >({});
 
   const hasFetched = useRef(false);
+  const redirectToLogin = () => {
+    toast.error(
+      "Only logged-in users can answer this poll. Please sign in first.",
+    );
+    navigate(`/login?redirect=/poll/${token}`, { replace: true });
+  };
 
   useEffect(() => {
     if (!token || hasFetched.current) return;
@@ -147,9 +168,17 @@ export default function PublicPollForm() {
           msg.includes("401") ||
           msg.includes("unauthorized")
         ) {
-          setPageState("auth_required");
-        } else {
+          redirectToLogin();
+          return;
+        } else if (
+          msg.includes("not found") ||
+          msg.includes("invalid") ||
+          msg.includes("doesn't exist")
+        ) {
           setPageState("not_found");
+        } else {
+          toast.error(getUserFriendlyError(err));
+          setPageState("error");
         }
       }
     };
@@ -195,13 +224,22 @@ export default function PublicPollForm() {
       await submitResponse(token, { answers: answersArr, fingerprint });
       setPageState("submitted");
     } catch (err) {
-      const msg = err instanceof Error ? err.message.toLowerCase() : "";
-      if (msg.includes("already been submitted")) {
-        toast.error("You have already submitted a response to this poll");
+      const rawMsg = err instanceof Error ? err.message : "";
+      const msg = rawMsg.toLowerCase();
+      if (isDuplicateSubmissionError(msg)) {
+        toast.warning("You already submitted this poll. Redirecting...");
+        setPageState("already_submitted");
+        navigate(`/poll/${token}/already-submitted`, { replace: true });
+      } else if (
+        msg.includes("not authenticated") ||
+        msg.includes("401") ||
+        msg.includes("unauthorized")
+      ) {
+        redirectToLogin();
       } else if (msg.includes("expired")) {
         setPageState("expired");
       } else {
-        toast.error(err instanceof Error ? err.message : "Submission failed");
+        toast.error(getUserFriendlyError(err));
       }
     } finally {
       setIsSubmitting(false);
@@ -300,6 +338,30 @@ export default function PublicPollForm() {
         }
         title="Response submitted!"
         description="Thank you for participating. Your response has been recorded successfully."
+      />
+    );
+  }
+
+  if (pageState === "already_submitted") {
+    return null;
+  }
+
+  if (pageState === "error") {
+    return (
+      <StatusScreen
+        icon={
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10">
+            <AlertTriangle size={28} className="text-red-400" />
+          </div>
+        }
+        title="Unable to load poll"
+        description="Something went wrong while loading this poll. Please refresh and try again."
+        action={
+          <Button onClick={() => window.location.reload()} className="gap-2">
+            Try again
+            <ChevronRight size={14} />
+          </Button>
+        }
       />
     );
   }

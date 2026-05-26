@@ -51,14 +51,21 @@ export function usePollAnalytics(pollId: string) {
     loadData();
   }, [loadData]);
 
+  useEffect(() => {
+    if (!pollId || !overview?.isPublished || shareToken) return;
+    getShareToken(pollId)
+      .then((token) => setShareToken(token))
+      .catch(() => {});
+  }, [overview?.isPublished, pollId, shareToken]);
+
   const changeTrendRange = async (range: TrendRange) => {
     setTrendRange(range);
     setTrendLoading(true);
     try {
       const data = await fetchParticipationTrend(pollId, range);
       setTrend(data);
-    } catch {
-      toast.error("Failed to load trend data");
+    } catch (err) {
+      toast.error(getUserFriendlyError(err));
     } finally {
       setTrendLoading(false);
     }
@@ -69,12 +76,14 @@ export function usePollAnalytics(pollId: string) {
     setIsPublishing(true);
     try {
       await publishPoll(pollId);
+      const token = await getShareToken(pollId);
+      setShareToken(token);
       toast.success("Poll results published successfully!");
       // Refresh overview to get updated isPublished state
       const updated = await fetchPollAnalyticsOverview(pollId);
       setOverview(updated);
-    } catch {
-      toast.error("Failed to publish poll");
+    } catch (err) {
+      toast.error(getUserFriendlyError(err));
     } finally {
       setIsPublishing(false);
     }
@@ -82,12 +91,18 @@ export function usePollAnalytics(pollId: string) {
 
   const handleGetShareToken = async () => {
     if (!pollId) return;
+    if (overview?.isPublished) {
+      toast.warning(
+        "This poll is already published. Use the live results link below.",
+      );
+      return;
+    }
     setShareLoading(true);
     try {
       const token = await getShareToken(pollId);
       setShareToken(token);
-    } catch {
-      toast.error("Failed to generate share link");
+    } catch (err) {
+      toast.error(getUserFriendlyError(err));
     } finally {
       setShareLoading(false);
     }

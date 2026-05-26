@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { apiClient } from "@/common/api-client";
 import AuthLayout from "./components/AuthLayout";
 import Button from "@/components/pollpulse/Button";
+import { getUserFriendlyError } from "@/common/error-handler";
 
 interface VerifyEmailProps {
   token?: string;
@@ -74,8 +75,7 @@ export default function VerifyEmail({
       await apiClient.post("/api/auth/resend-verification", { email });
       toast.success("New verification email sent. Please check your inbox.");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not resend verification email.";
-      toast.error(message);
+      toast.error(getUserFriendlyError(err));
     } finally {
       setIsResending(false);
     }

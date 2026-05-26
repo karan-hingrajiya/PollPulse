@@ -54,6 +54,36 @@ export function getUserFriendlyError(err: unknown): string {
     return "We couldn't find your dashboard data yet.";
   }
 
+  if (
+    normalized.includes("not published") ||
+    normalized.includes("results not available")
+  ) {
+    return "Results are not published yet. Please check again later.";
+  }
+
+  if (normalized.includes("expired")) {
+    return "This link or action has expired. Please request a new one.";
+  }
+
+  if (
+    normalized.includes("already submitted") ||
+    normalized.includes("already answered") ||
+    normalized.includes("duplicate")
+  ) {
+    return "You have already submitted a response for this poll.";
+  }
+
+  if (normalized.includes("bad request") || normalized.includes("400")) {
+    return "The request looks invalid. Please check your input and try again.";
+  }
+
+  if (
+    normalized.includes("email does not exist") ||
+    normalized.includes("user does not exist")
+  ) {
+    return "We couldn't find an account with those details.";
+  }
+
   return "Something went wrong. Please try again.";
 }
 

@@ -51,8 +51,16 @@ export const getOverviewOfAllPolls = async (userId) => {
     answeredSelections: 0,
   };
 
+  const toValidDate = (value) => {
+    if (!value) return null;
+    const parsed = value instanceof Date ? value : new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  };
+
   for (const poll of allPolls) {
-    const isExpired = Boolean(poll.expiresAt && poll.expiresAt < now);
+    const expiry = toValidDate(poll.expiresAt);
+    const isExpiredByTime = Boolean(expiry && expiry < now);
+    const isExpired = Boolean(poll.isPublished || isExpiredByTime);
 
     if (poll.isPublished) {
       summary.publishedPolls += 1;
@@ -64,7 +72,7 @@ export const getOverviewOfAllPolls = async (userId) => {
       summary.expiredPolls += 1;
     }
 
-    if (!poll.isPublished && !isExpired) {
+    if (!poll.isPublished && !isExpiredByTime) {
       summary.livePolls += 1;
     }
 
@@ -74,7 +82,8 @@ export const getOverviewOfAllPolls = async (userId) => {
     summary.totalResponses += pollResponses.length;
 
     for (const response of pollResponses) {
-      if (response.submittedAt >= dayStart) {
+      const submittedAt = toValidDate(response.submittedAt);
+      if (submittedAt && submittedAt >= dayStart) {
         summary.responsesToday += 1;
       }
 
@@ -138,7 +147,9 @@ export const getOverviewOfPoll = async (userId, pollId) => {
         $addFields: {
           totalResponses: { $size: "$pollResponses" },
           totalQuestions: { $size: "$questions" },
-          isExpired: { $lt: ["$expiresAt", now] },
+          isExpired: {
+            $or: [{ $eq: ["$isPublished", true] }, { $lt: ["$expiresAt", now] }],
+          },
           responsesToday: {
             $size: {
               $filter: {

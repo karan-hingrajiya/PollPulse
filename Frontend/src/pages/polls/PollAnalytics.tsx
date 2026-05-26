@@ -297,7 +297,7 @@ export default function PollAnalyticsPage() {
     return (
       <div className="min-h-screen bg-[#0f0f0f]">
         <Navbar />
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
           <Skeleton className="h-8 w-64 bg-[#1a1a1a]" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
@@ -328,26 +328,26 @@ export default function PollAnalyticsPage() {
     );
   }
 
-  const expired = isExpired(overview.expiresAt);
+  const expired = overview.isPublished || isExpired(overview.expiresAt);
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* ── Header ── */}
-        <div className="mb-6">
+        <div className="mb-10">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex items-center gap-1.5 text-sm text-[#71717a] hover:text-white transition-colors mb-4"
+            className="flex items-center gap-1.5 text-sm text-[#71717a] hover:text-white transition-colors mb-6"
           >
             <ArrowLeft size={15} />
             Back to Dashboard
           </button>
 
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
             <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2 mb-1">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
                 {overview.isPublished ? (
                   <Badge variant="green">
                     <Globe size={11} /> Published
@@ -366,21 +366,21 @@ export default function PollAnalyticsPage() {
                   <Badge variant="indigo">Active</Badge>
                 )}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight truncate">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight break-words">
                 {overview.title}
               </h1>
-              <p className="text-sm text-[#71717a] mt-1">
+              <p className="text-sm text-[#71717a] mt-3">
                 Created {formatDate(overview.createdAt)} · Expires{" "}
                 {formatDate(overview.expiresAt)}
               </p>
             </div>
           </div>
           {/* Actions */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 mt-5">
             <Button
               variant="outline"
               size="sm"
-              className="gap-1.5"
+              className="gap-1.5 min-w-[120px] justify-center"
               onClick={handleGetShareToken}
               disabled={shareLoading}
             >
@@ -395,7 +395,7 @@ export default function PollAnalyticsPage() {
             {!overview.isPublished && (
               <Button
                 size="sm"
-                className="gap-1.5"
+                className="gap-1.5 min-w-[140px] justify-center"
                 onClick={handlePublish}
                 disabled={isPublishing}
               >
@@ -410,11 +410,11 @@ export default function PollAnalyticsPage() {
           </div>
         </div>
 
-        {/* Share URL strip */}
-        {shareUrl && (
-          <div className="mt-4 space-y-2">
+        {/* Share URL strip (only while not published) */}
+        {shareUrl && !overview.isPublished && (
+          <div className="mb-8 space-y-3">
             {/* Share link */}
-            <div className="flex items-center gap-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-3 py-2">
+            <div className="flex items-center gap-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3">
               <Globe size={14} className="text-[#6366f1] shrink-0" />
               <span className="text-xs text-[#a1a1aa] truncate flex-1">
                 {shareUrl}
@@ -432,29 +432,32 @@ export default function PollAnalyticsPage() {
               </button>
             </div>
 
-            {/* Results link — only show when published */}
-            {overview?.isPublished && (
-              <div className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-lg px-3 py-2">
-                <Eye size={14} className="text-emerald-400 shrink-0" />
-                <span className="text-xs text-[#a1a1aa] flex-1">
-                  Public results page is live
-                </span>
-                <a
-                  href={`/poll/${shareToken}/results`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors shrink-0 ml-2"
-                >
-                  View <ArrowRight size={11} />
-                </a>
-              </div>
-            )}
+          </div>
+        )}
+
+        {/* Results link row (published state only) */}
+        {overview.isPublished && shareToken && (
+          <div className="mb-8">
+            <div className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-xl px-4 py-3">
+              <Eye size={14} className="text-emerald-400 shrink-0" />
+              <span className="text-xs text-[#a1a1aa] flex-1">
+                Public results page is live
+              </span>
+              <a
+                href={`/poll/${shareToken}/results`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors shrink-0 ml-2"
+              >
+                View <ArrowRight size={11} />
+              </a>
+            </div>
           </div>
         )}
 
         {/* ── Tabs ── */}
         <Tabs defaultValue="overview">
-          <TabsList className="bg-[#1a1a1a] border border-[#2a2a2a] mb-6">
+          <TabsList className="bg-[#1a1a1a] border border-[#2a2a2a] mb-8">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-[#6366f1] data-[state=active]:text-white text-[#a1a1aa]"
@@ -683,3 +686,4 @@ export default function PollAnalyticsPage() {
     </div>
   );
 }
+

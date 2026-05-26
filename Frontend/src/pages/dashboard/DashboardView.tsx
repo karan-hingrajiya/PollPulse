@@ -91,7 +91,7 @@ function PollCard({
   isDeleting?: boolean;
   onPollClick?: (pollId: string) => void;
 }) {
-  const expired = isExpired(poll.expiresAt);
+  const expired = poll.isPublished || isExpired(poll.expiresAt);
 
   return (
     <Card>

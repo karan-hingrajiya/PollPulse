@@ -18,6 +18,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { createPoll } from "./api/poll-management.api";
 import type { CreatePollQuestion } from "@/pages/dashboard/types";
+import { getUserFriendlyError } from "@/common/error-handler";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -311,9 +312,7 @@ export default function CreatePollPage() {
       toast.success("Poll created successfully!");
       navigate("/dashboard");
     } catch (err) {
-      const msg =
-        err instanceof Error ? err.message : "Failed to create poll";
-      toast.error(msg);
+      toast.error(getUserFriendlyError(err));
     } finally {
       setIsSubmitting(false);
     }

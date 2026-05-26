@@ -5,6 +5,7 @@ import PasswordInput from "./components/PasswordInput";
 import Button from "@/components/pollpulse/Button";
 import { cn } from "@/lib/utils";
 import { apiClient } from "@/common/api-client";
+import { getUserFriendlyError } from "@/common/error-handler";
 
 interface RegisterProps {
   onRegisterSuccess?: () => void;
@@ -80,7 +81,7 @@ export default function Register({
       if (message.toLowerCase().includes("email is already exists")) {
         setError("An account with this email already exists.");
       } else {
-        setError(message);
+        setError(getUserFriendlyError(err));
       }
     } finally {
       setIsLoading(false);

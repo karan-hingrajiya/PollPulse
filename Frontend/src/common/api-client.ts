@@ -45,7 +45,13 @@ apiClient.interceptors.response.use(
     if (response.data && response.data.status === false) {
       const error = new Error(response.data.message || "Request failed");
       (error as any).response = response; // Attach response data so our global handler can read it
-      handleGlobalError(error);
+      const suppressGlobalError = Boolean(
+        (response.config as any)?.suppressGlobalErrorHandler,
+      );
+      const status = response.status;
+      if (!suppressGlobalError && (!status || status >= 500)) {
+        handleGlobalError(error);
+      }
       return Promise.reject(error);
     }
     return response;
@@ -53,6 +59,9 @@ apiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const status = error.response?.status;
+    const suppressGlobalError = Boolean(
+      error?.config?.suppressGlobalErrorHandler,
+    );
 
     // If 401 Unauthorized, and we haven't already retried this request
     if (status === 401 && !originalRequest._retry) {
@@ -76,7 +85,9 @@ apiClient.interceptors.response.use(
       } catch (refreshErr) {
         // If the refresh request failed, wipe token and reject
         setAccessToken(null);
-        handleGlobalError(refreshErr);
+        if (!suppressGlobalError) {
+          handleGlobalError(refreshErr);
+        }
 
         // Redirect the user back to the login page to re-authenticate
         window.location.href = "/login";
@@ -84,7 +95,11 @@ apiClient.interceptors.response.use(
       }
     }
 
-    handleGlobalError(error);
+    // Show fallback global toast only for network/server failures.
+    // 4xx errors are expected to be handled by page-level UX.
+    if (!suppressGlobalError && (!status || status >= 500)) {
+      handleGlobalError(error);
+    }
     const message =
       error.response?.data?.message || error.message || "Request failed";
     return Promise.reject(new Error(message));

@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
-import { Loader2, XCircle, Lock } from "lucide-react";
+import { Loader2, XCircle, Lock, AlertTriangle } from "lucide-react";
 import { getPublishedResults } from "@/pages/polls/api/poll-management.api";
 import type { PublishedPollResults } from "@/pages/dashboard/types";
 import PollResultsDisplay from "./components/PollResultsDisplay";
 import { PollPulseLogo } from "@/components/layout/Navbar";
+import { toast } from "sonner";
+import { getUserFriendlyError } from "@/common/error-handler";
 
-type State = "loading" | "ready" | "not_published" | "not_found";
+type State = "loading" | "ready" | "not_published" | "not_found" | "error";
 
 function CenteredScreen({
   icon,
@@ -35,6 +37,7 @@ export default function PublicPollResults() {
   const [state, setState] = useState<State>("loading");
   const [results, setResults] = useState<PublishedPollResults | null>(null);
   const fetched = useRef(false);
+  const hasShownNotPublishedToast = useRef(false);
 
   useEffect(() => {
     if (!token || fetched.current) return;
@@ -48,9 +51,16 @@ export default function PublicPollResults() {
       .catch((err) => {
         const msg = err instanceof Error ? err.message.toLowerCase() : "";
         if (msg.includes("not published") || msg.includes("not published yet")) {
+          if (!hasShownNotPublishedToast.current) {
+            toast.warning("Results are not published yet. Please check again later.");
+            hasShownNotPublishedToast.current = true;
+          }
           setState("not_published");
-        } else {
+        } else if (msg.includes("not found") || msg.includes("invalid")) {
           setState("not_found");
+        } else {
+          toast.error(getUserFriendlyError(err));
+          setState("error");
         }
       });
   }, [token]);
@@ -80,6 +90,20 @@ export default function PublicPollResults() {
   }
 
   if (state === "not_found" || !results) {
+    if (state === "error") {
+      return (
+        <CenteredScreen
+          icon={
+            <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center">
+              <AlertTriangle size={24} className="text-red-400" />
+            </div>
+          }
+          title="Unable to load results"
+          desc="Something went wrong while loading poll results. Please try again."
+        />
+      );
+    }
+
     return (
       <CenteredScreen
         icon={
