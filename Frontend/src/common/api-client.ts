@@ -87,10 +87,10 @@ apiClient.interceptors.response.use(
         setAccessToken(null);
         if (!suppressGlobalError) {
           handleGlobalError(refreshErr);
+          // Redirect the user back to the login page to re-authenticate
+          window.location.href = "/login";
         }
 
-        // Redirect the user back to the login page to re-authenticate
-        window.location.href = "/login";
         return Promise.reject(refreshErr);
       }
     }

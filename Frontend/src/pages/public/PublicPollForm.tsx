@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router";
@@ -27,6 +28,7 @@ import Card from "@/components/pollpulse/Card";
 import Button from "@/components/pollpulse/Button";
 import { PollPulseLogo } from "@/components/layout/Navbar";
 import { getUserFriendlyError } from "@/common/error-handler";
+import { apiClient } from "@/common/api-client";
 
 // ─── Fingerprint ─────────────────────────────────────────────────────────────
 
@@ -127,11 +129,24 @@ export default function PublicPollForm() {
   >({});
 
   const hasFetched = useRef(false);
-  const redirectToLogin = () => {
-    toast.error(
-      "Only logged-in users can answer this poll. Please sign in first.",
+
+  const ensureAuthenticatedUser = async () => {
+    try {
+      await apiClient.get("/api/auth/getme", {
+        suppressGlobalErrorHandler: true,
+      } as any);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+const redirectToLogin = () => {
+    sessionStorage.setItem("login_reason", "auth_required_poll");
+    navigate(
+      `/login?redirect=/poll/${token}&reason=auth_required_poll`,
+      { replace: true },
     );
-    navigate(`/login?redirect=/poll/${token}`, { replace: true });
   };
 
   useEffect(() => {
@@ -157,6 +172,14 @@ export default function PublicPollForm() {
         if (isExpired(pollData.expiresAt)) {
           setPageState("expired");
           return;
+        }
+
+        if (!pollData.isAnonymous) {
+          const isAllowed = await ensureAuthenticatedUser();
+          if (!isAllowed) {
+            redirectToLogin();
+            return;
+          }
         }
 
         setPoll(pollData);

@@ -26,6 +26,17 @@ import Navbar from "@/components/layout/Navbar";
 import { toast } from "sonner";
 import { useState } from "react";
 import type { OptionAnalytics } from "@/pages/dashboard/types";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -329,6 +340,7 @@ export default function PollAnalyticsPage() {
   }
 
   const expired = overview.isPublished || isExpired(overview.expiresAt);
+  const timeExpired = isExpired(overview.expiresAt);
 
   return (
     <div className="min-h-screen bg-[#0f0f0f]">
@@ -393,19 +405,47 @@ export default function PollAnalyticsPage() {
             </Button>
 
             {!overview.isPublished && (
-              <Button
-                size="sm"
-                className="gap-1.5 min-w-[140px] justify-center"
-                onClick={handlePublish}
-                disabled={isPublishing}
-              >
-                {isPublishing ? (
-                  <Loader2 size={14} className="animate-spin" />
-                ) : (
-                  <Globe size={14} />
-                )}
-                Publish Results
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    className="gap-1.5 min-w-[140px] justify-center"
+                    disabled={isPublishing}
+                  >
+                    {isPublishing ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      <Globe size={14} />
+                    )}
+                    Publish Results
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {timeExpired
+                        ? "Publish poll results now?"
+                        : "Poll is still live. Publish anyway?"}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-[#a1a1aa]">
+                      {timeExpired
+                        ? "Publishing will make results publicly visible and this action cannot be undone."
+                        : "This poll has not reached its expiry time yet. If you continue, responses will stop and results will be published immediately."}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel className="bg-transparent border-[#2a2a2a] text-white hover:bg-[#2a2a2a] hover:text-white">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-[#6366f1] hover:bg-[#5558e8] text-white border border-[#6366f1]/20"
+                      onClick={handlePublish}
+                    >
+                      Yes, continue publish
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
           </div>
         </div>

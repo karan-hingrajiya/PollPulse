@@ -3,6 +3,17 @@ import { Link, useLocation } from "react-router";
 import { Loader2, ArrowRight, LayoutDashboard, PlusCircle } from "lucide-react";
 import useLogout from "../../pages/auth/Logout";
 import Button from "../pollpulse/Button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface NavbarUser {
   name?: string;
@@ -206,31 +217,53 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
                   </div>
                 </div>
 
-                <button
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                  className="p-2 rounded-lg text-[#a1a1aa] hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 border border-transparent hover:border-red-500/20 disabled:opacity-50"
-                  title="Logout"
-                >
-                  {isLoggingOut ? (
-                    <Loader2 size={18} className="animate-spin text-red-400" />
-                  ) : (
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button
+                      disabled={isLoggingOut}
+                      className="p-2 rounded-lg text-[#a1a1aa] hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 border border-transparent hover:border-red-500/20 disabled:opacity-50"
+                      title="Logout"
                     >
-                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                      <polyline points="16 17 21 12 16 7" />
-                      <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-                  )}
-                </button>
+                      {isLoggingOut ? (
+                        <Loader2 size={18} className="animate-spin text-red-400" />
+                      ) : (
+                        <svg
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                          <polyline points="16 17 21 12 16 7" />
+                          <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                      )}
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Log out of PollPulse?</AlertDialogTitle>
+                      <AlertDialogDescription className="text-[#a1a1aa]">
+                        You will be signed out from this device and need to sign in again to create or manage polls.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="bg-transparent border-[#2a2a2a] text-white hover:bg-[#2a2a2a] hover:text-white">
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20"
+                        onClick={handleLogout}
+                      >
+                        Yes, log out
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </>
             ) : (
               <>

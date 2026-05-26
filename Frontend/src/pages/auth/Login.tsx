@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, type FormEvent } from "react";
-import { Link } from "react-router";
+import { useEffect, useState, type FormEvent } from "react";
+import { Link, useLocation } from "react-router";
 import { Loader2, Mail, AlertTriangle } from "lucide-react";
 import AuthLayout from "./components/AuthLayout";
 import PasswordInput from "./components/PasswordInput";
@@ -22,6 +22,7 @@ export default function Login({
   // The underscore prefix (_onNavigateToRegister) is a common JavaScript and TypeScript convention used to signal that a variable or prop is intentionally unused in the code body.
   onNavigateToForgotPassword,
 }: LoginProps) {
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,18 @@ export default function Login({
   }>({});
   const [isUnverified, setIsUnverified] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [showAuthOnlyPollWarning, setShowAuthOnlyPollWarning] = useState(false);
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const reason = query.get("reason");
+    if (reason === "auth_required_poll") {
+      setShowAuthOnlyPollWarning(true);
+      toast.warning(
+        "This poll accepts authenticated responses only. Please sign in to continue.",
+      );
+    }
+  }, [location.search]);
 
   const validate = () => {
     const errors: { email?: string; password?: string } = {};
@@ -131,6 +144,17 @@ export default function Login({
             >
               {isResending ? "Sending..." : "Resend verification email"}
             </button>
+          </div>
+        </div>
+      )}
+
+      {showAuthOnlyPollWarning && (
+        <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-start gap-2.5">
+          <AlertTriangle size={16} className="text-amber-400 mt-0.5 shrink-0" />
+          <div className="w-full">
+            <p className="text-sm text-amber-300">
+              This poll is for authenticated users only. Please sign in to submit your response.
+            </p>
           </div>
         </div>
       )}

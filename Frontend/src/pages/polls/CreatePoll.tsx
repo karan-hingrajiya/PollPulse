@@ -292,7 +292,7 @@ export default function CreatePollPage() {
   // ── Submit ──────────────────────────────────────────────────
   const handleSubmit = async () => {
     if (!validate()) {
-      toast.error("Please fix the errors before submitting");
+      toast.error("Please check the poll data and fill it correctly");
       return;
     }
 
