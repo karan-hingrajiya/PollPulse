@@ -2,7 +2,7 @@ import Joi from "joi";
 import BaseDto from "../../../common/dto/base.dto.js";
 
 const options = Joi.object({
-  text: Joi.string().min(2).max(1000).required(),
+  text: Joi.string().min(2).required(),
 });
 
 const question = Joi.object({

@@ -312,6 +312,16 @@ export default function CreatePollPage() {
       toast.success("Poll created successfully!");
       navigate("/dashboard");
     } catch (err) {
+      const msg = err instanceof Error ? err.message.toLowerCase() : "";
+      if (
+        msg.includes("401") ||
+        msg.includes("unauthorized") ||
+        msg.includes("not authenticated")
+      ) {
+        toast.error("Your session expired. Please sign in again to create a poll.");
+        navigate("/login?redirect=/dashboard/polls/create", { replace: true });
+        return;
+      }
       toast.error(getUserFriendlyError(err));
     } finally {
       setIsSubmitting(false);

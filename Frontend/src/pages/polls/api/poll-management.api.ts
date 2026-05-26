@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "@/common/api-client";
 import type {
   CreatePollPayload,
@@ -11,7 +12,7 @@ const silentHandledErrorConfig = {
 } as any;
 
 export async function createPoll(payload: CreatePollPayload) {
-  const res = await apiClient.post("/api/poll", payload);
+  const res = await apiClient.post("/api/poll", payload, silentHandledErrorConfig);
   return res.data;
 }
 

@@ -5,6 +5,10 @@ import crypto from "node:crypto";
 import { assertPollAcceptingResponses } from "./poll-state.guard.js";
 
 export const createPoll = async (payload, userId) => {
+  if (!userId || !ObjectId.isValid(userId)) {
+    throw ApiError.unauthorized("Invalid user session. Please login again.");
+  }
+
   if (!payload.title || payload.title.trim().length === 0) {
     throw ApiError.badRequest("Please provide a title for the poll!");
   }
@@ -58,16 +62,30 @@ export const createPoll = async (payload, userId) => {
 
   const pollDoc = {
     title: payload.title,
-    description: payload.description,
     createdBy: new ObjectId(userId),
     createdAt: new Date(),
     expiresAt: expiresIn,
     isPublished: payload.isPublished || false,
     isAnonymous: payload.isAnonymous || false,
     questions: questionsArr,
+    ...(typeof payload.description === "string" &&
+    payload.description.trim().length > 0
+      ? { description: payload.description.trim() }
+      : {}),
   };
 
-  const result = await polls.insertOne(pollDoc);
+  let result;
+  try {
+    result = await polls.insertOne(pollDoc);
+  } catch (err) {
+    // Mongo schema/validation failures should be user-facing 400s, not opaque 500s.
+    if (err?.name === "MongoServerError" && err?.code === 121) {
+      throw ApiError.badRequest(
+        "Poll data is invalid. Please check title, description, expiry, questions, and options.",
+      );
+    }
+    throw err;
+  }
   // Emit updated platform stats to landing page listeners
   try {
     const { getIO, emitStatsUpdate } =
