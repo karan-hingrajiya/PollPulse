@@ -7,7 +7,7 @@ export const assertPollAcceptingResponses = (poll) => {
 
   if (poll.isPublished) {
     throw ApiError.badRequest(
-      "This poll is already published and no longer accepting responses.",
+      "This poll is already published and no longer accepting responses",
     );
   }
 

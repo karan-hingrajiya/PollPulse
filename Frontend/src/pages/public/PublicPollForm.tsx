@@ -76,6 +76,24 @@ function isDuplicateSubmissionError(message: string) {
   );
 }
 
+function getRawErrorText(err: unknown) {
+  const e = err as any;
+  const pieces = [
+    e?.response?.data?.message,
+    e?.response?.data?.error,
+    e?.message,
+  ].filter(Boolean);
+  return pieces.join(" ").toLowerCase();
+}
+
+function isPollClosedError(message: string) {
+  return (
+    message.includes("expired") ||
+    message.includes("no longer accepting responses") ||
+    message.includes("already published")
+  );
+}
+
 // ─── Status Screens ───────────────────────────────────────────────────────────
 
 function StatusScreen({
@@ -185,13 +203,16 @@ const redirectToLogin = () => {
         setPoll(pollData);
         setPageState("form");
       } catch (err) {
-        const msg = err instanceof Error ? err.message.toLowerCase() : "";
+        const msg = getRawErrorText(err);
         if (
           msg.includes("not authenticated") ||
           msg.includes("401") ||
           msg.includes("unauthorized")
         ) {
           redirectToLogin();
+          return;
+        } else if (isPollClosedError(msg)) {
+          setPageState("expired");
           return;
         } else if (
           msg.includes("not found") ||
@@ -247,8 +268,7 @@ const redirectToLogin = () => {
       await submitResponse(token, { answers: answersArr, fingerprint });
       setPageState("submitted");
     } catch (err) {
-      const rawMsg = err instanceof Error ? err.message : "";
-      const msg = rawMsg.toLowerCase();
+      const msg = getRawErrorText(err);
       if (isDuplicateSubmissionError(msg)) {
         toast.warning("You already submitted this poll. Redirecting...");
         setPageState("already_submitted");
@@ -259,7 +279,7 @@ const redirectToLogin = () => {
         msg.includes("unauthorized")
       ) {
         redirectToLogin();
-      } else if (msg.includes("expired")) {
+      } else if (isPollClosedError(msg)) {
         setPageState("expired");
       } else {
         toast.error(getUserFriendlyError(err));
