@@ -90,14 +90,6 @@ export const submitResponse = async (poll, user, payload) => {
 
   const respondentId = user?.id ? new ObjectId(String(user.id)) : null;
 
-  // Emit updated platform stats to landing page listeners
-  try {
-    const { getIO, emitStatsUpdate } =
-      await import("../../common/config/socket.js");
-    emitStatsUpdate(getIO());
-  } catch {
-    // Socket may not be initialized in test environments
-  }
   const result = await responses.insertOne({
     respondentId,
     submittedAt: new Date(),
@@ -105,6 +97,15 @@ export const submitResponse = async (poll, user, payload) => {
     answers: answersArr,
     fingerprint: payload.fingerprint,
   });
+
+  // Emit updated platform stats to landing page listeners AFTER insert
+  try {
+    const { getIO, emitStatsUpdate } =
+      await import("../../common/config/socket.js");
+    emitStatsUpdate(getIO());
+  } catch {
+    // Socket may not be initialized in test environments
+  }
 
   return {
     responseId: result.insertedId,

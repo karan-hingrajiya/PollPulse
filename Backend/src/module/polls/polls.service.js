@@ -100,23 +100,36 @@ export const createPoll = async (payload, userId) => {
 
 export const getPolls = async (userId) => {
   const polls = getCollection("polls");
+
+  // Use aggregation to include a per-poll totalResponses count
   const result = await polls
-    .find(
-      { createdBy: new ObjectId(userId) },
+    .aggregate([
+      { $match: { createdBy: new ObjectId(userId) } },
       {
-        projection: {
+        $lookup: {
+          from: "responses",
+          localField: "_id",
+          foreignField: "pollId",
+          as: "pollResponses",
+        },
+      },
+      {
+        $addFields: {
+          totalResponses: { $size: { $ifNull: ["$pollResponses", []] } },
+        },
+      },
+      {
+        $project: {
           questions: 0,
           shareToken: 0,
           createdBy: 0,
-        }, // TODO : add limit if there are more records we can do pagination based on that
+          pollResponses: 0,
+        },
       },
-    )
+    ])
     .toArray();
 
-  if (result.length === 0) {
-    return []; //if no polls exist then give empty arr so we can hanlde or show message like "no polls something like that"
-  }
-  return result;
+  return result || [];
 };
 
 export const getPollById = async (pollId, userId) => {
