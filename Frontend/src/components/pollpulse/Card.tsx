@@ -17,9 +17,9 @@ export default function Card({
     <div
       onClick={onClick}
       className={`
-        bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl 
+        bg-white/85 border border-[#d7e1da] rounded-lg shadow-[0_12px_34px_rgba(24,43,35,0.06)]
         transition-all duration-200 ease-out
-        ${hoverable ? "hover:border-[#3a3a3a] hover:bg-[#1e1e1e] hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] cursor-pointer active:scale-[0.99]" : ""}
+        ${hoverable ? "hover:border-[#8ccfc4] hover:bg-white hover:shadow-[0_18px_44px_rgba(15,159,138,0.12)] cursor-pointer active:scale-[0.99]" : ""}
         ${className}
       `}
     >

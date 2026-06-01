@@ -79,20 +79,20 @@ function StatCard({
   accent?: "indigo" | "emerald" | "amber" | "sky" | "rose" | "violet";
 }) {
   const accents = {
-    indigo: "bg-[#6366f1]/10 border-[#6366f1]/20 text-[#818cf8]",
+    indigo: "bg-[#0f9f8a]/10 border-[#0f9f8a]/20 text-[#0f766e]",
     emerald: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
     amber: "bg-amber-500/10 border-amber-500/20 text-amber-400",
     sky: "bg-sky-500/10 border-sky-500/20 text-sky-400",
     rose: "bg-rose-500/10 border-rose-500/20 text-rose-400",
-    violet: "bg-violet-500/10 border-violet-500/20 text-violet-400",
+    violet: "bg-cyan-50 border-cyan-200 text-cyan-600",
   };
   return (
     <Card className="p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs text-[#71717a] font-medium truncate">{label}</p>
-          <p className="text-2xl font-bold text-white mt-1">{value}</p>
-          {sub && <p className="text-xs text-[#52525b] mt-0.5">{sub}</p>}
+          <p className="text-xs text-[#566a60] font-medium truncate">{label}</p>
+          <p className="text-2xl font-bold text-[#17231d] mt-1">{value}</p>
+          {sub && <p className="text-xs text-[#66786f] mt-0.5">{sub}</p>}
         </div>
         <div className={`p-2.5 rounded-lg border shrink-0 ${accents[accent]}`}>
           {icon}
@@ -112,29 +112,29 @@ function OptionBar({
   rank: number;
 }) {
   const barColors = [
-    "bg-[#6366f1]",
+    "bg-[#0f9f8a]",
     "bg-sky-500",
     "bg-emerald-500",
     "bg-amber-500",
     "bg-rose-500",
-    "bg-violet-500",
+    "bg-cyan-500",
   ];
   const color = barColors[rank % barColors.length];
 
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between text-sm">
-        <span className="text-[#e4e4e7] font-medium truncate pr-4 max-w-[70%]">
+        <span className="text-[#17231d] font-medium truncate pr-4 max-w-[70%]">
           {option.optionText}
         </span>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-[#a1a1aa]">{option.count} votes</span>
-          <span className="text-white font-semibold w-12 text-right">
+          <span className="text-[#43554b]">{option.count} votes</span>
+          <span className="text-[#17231d] font-semibold w-12 text-right">
             {option.percentage.toFixed(1)}%
           </span>
         </div>
       </div>
-      <div className="h-2.5 bg-[#2a2a2a] rounded-full overflow-hidden">
+      <div className="h-2.5 bg-[#d7e1da] rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-700 ease-out ${color}`}
           style={{ width: `${option.percentage}%` }}
@@ -155,7 +155,7 @@ function TrendChart({
 }) {
   if (!points || points.length === 0) {
     return (
-      <div className="h-48 flex items-center justify-center text-[#52525b] text-sm">
+      <div className="h-48 flex items-center justify-center text-[#66786f] text-sm">
         No data in this range
       </div>
     );
@@ -201,14 +201,14 @@ function TrendChart({
               y1={yScale(tick)}
               x2={width - padding.right}
               y2={yScale(tick)}
-              stroke="#2a2a2a"
+              stroke="#d7e1da"
               strokeWidth={1}
             />
             <text
               x={padding.left - 6}
               y={yScale(tick) + 4}
               textAnchor="end"
-              fill="#52525b"
+              fill="#66786f"
               fontSize={10}
             >
               {tick}
@@ -223,7 +223,7 @@ function TrendChart({
         <path
           d={pathD}
           fill="none"
-          stroke="#6366f1"
+          stroke="#0f9f8a"
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -236,8 +236,8 @@ function TrendChart({
             cx={xScale(i)}
             cy={yScale(p.count)}
             r={3}
-            fill="#6366f1"
-            stroke="#0f0f0f"
+            fill="#0f9f8a"
+            stroke="#f6f7f2"
             strokeWidth={1.5}
           />
         ))}
@@ -256,7 +256,7 @@ function TrendChart({
               x={xScale(i)}
               y={height - 6}
               textAnchor="middle"
-              fill="#52525b"
+              fill="#66786f"
               fontSize={9}
             >
               {label}
@@ -266,8 +266,8 @@ function TrendChart({
 
         <defs>
           <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6366f1" stopOpacity={0.8} />
-            <stop offset="100%" stopColor="#6366f1" stopOpacity={0} />
+            <stop offset="0%" stopColor="#0f9f8a" stopOpacity={0.8} />
+            <stop offset="100%" stopColor="#0f9f8a" stopOpacity={0} />
           </linearGradient>
         </defs>
       </svg>
@@ -315,16 +315,16 @@ export default function PollAnalyticsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f]">
+      <div className="min-h-screen pollpulse-page">
         <Navbar />
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
-          <Skeleton className="h-8 w-64 bg-[#1a1a1a]" />
+          <Skeleton className="h-8 w-64 bg-[#ffffff]" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[...Array(8)].map((_, i) => (
-              <Skeleton key={i} className="h-24 bg-[#1a1a1a] rounded-xl" />
+              <Skeleton key={i} className="h-24 bg-[#ffffff] rounded-xl" />
             ))}
           </div>
-          <Skeleton className="h-64 bg-[#1a1a1a] rounded-xl" />
+          <Skeleton className="h-64 bg-[#ffffff] rounded-xl" />
         </main>
       </div>
     );
@@ -332,7 +332,7 @@ export default function PollAnalyticsPage() {
 
   if (error || !overview) {
     return (
-      <div className="min-h-screen bg-[#0f0f0f]">
+      <div className="min-h-screen pollpulse-page">
         <Navbar />
         <main className="max-w-6xl mx-auto px-4 py-8">
           <Card className="p-8 text-center border-red-500/20 bg-red-500/5">
@@ -352,7 +352,7 @@ export default function PollAnalyticsPage() {
   const timeExpired = isExpired(overview.expiresAt);
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
+    <div className="min-h-screen pollpulse-page">
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -360,7 +360,7 @@ export default function PollAnalyticsPage() {
         <div className="mb-10">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex items-center gap-1.5 text-sm text-[#71717a] hover:text-white transition-colors mb-6"
+            className="flex items-center gap-1.5 text-sm text-[#566a60] hover:text-[#0f6f61] transition-colors mb-6"
           >
             <ArrowLeft size={15} />
             Back to Dashboard
@@ -387,10 +387,10 @@ export default function PollAnalyticsPage() {
                   <Badge variant="indigo">Active</Badge>
                 )}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight break-words">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#17231d] tracking-tight break-words">
                 {overview.title}
               </h1>
-              <p className="text-sm text-[#71717a] mt-3">
+              <p className="text-sm text-[#566a60] mt-3">
                 Created {formatDate(overview.createdAt)} · Expires{" "}
                 {formatDate(overview.expiresAt)}
               </p>
@@ -429,25 +429,25 @@ export default function PollAnalyticsPage() {
                     Publish Results
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                <AlertDialogContent className="bg-[#ffffff] border-[#d7e1da] text-[#17231d]">
                   <AlertDialogHeader>
                     <AlertDialogTitle>
                       {timeExpired
                         ? "Publish poll results now?"
                         : "Poll is still live. Publish anyway?"}
                     </AlertDialogTitle>
-                    <AlertDialogDescription className="text-[#a1a1aa]">
+                    <AlertDialogDescription className="text-[#43554b]">
                       {timeExpired
                         ? "Publishing will make results publicly visible and this action cannot be undone."
                         : "This poll has not reached its expiry time yet. If you continue, responses will stop and results will be published immediately."}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel className="bg-transparent border-[#2a2a2a] text-white hover:bg-[#2a2a2a] hover:text-white">
+                    <AlertDialogCancel className="bg-transparent border-[#d7e1da] text-[#17231d] hover:bg-[#d7e1da] hover:text-[#0f6f61]">
                       Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction
-                      className="bg-[#6366f1] hover:bg-[#5558e8] text-white border border-[#6366f1]/20"
+                      className="bg-[#0f9f8a] hover:bg-[#0b8574] text-[#17231d] border border-[#0f9f8a]/20"
                       onClick={handlePublish}
                     >
                       Yes, continue publish
@@ -463,14 +463,14 @@ export default function PollAnalyticsPage() {
         {shareUrl && !overview.isPublished && (
           <div className="mb-8 space-y-3">
             {/* Share link */}
-            <div className="flex items-center gap-2 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3">
-              <Globe size={14} className="text-[#6366f1] shrink-0" />
-              <span className="text-xs text-[#a1a1aa] truncate flex-1">
+            <div className="flex items-center gap-2 bg-[#ffffff] border border-[#d7e1da] rounded-xl px-4 py-3">
+              <Globe size={14} className="text-[#0f9f8a] shrink-0" />
+              <span className="text-xs text-[#43554b] truncate flex-1">
                 {shareUrl}
               </span>
               <button
                 onClick={handleCopy}
-                className="flex items-center gap-1 text-xs text-[#6366f1] hover:text-white transition-colors shrink-0 ml-2"
+                className="flex items-center gap-1 text-xs text-[#0f9f8a] hover:text-[#0f6f61] transition-colors shrink-0 ml-2"
               >
                 {copied ? (
                   <CheckCircle2 size={13} className="text-emerald-400" />
@@ -489,7 +489,7 @@ export default function PollAnalyticsPage() {
           <div className="mb-8">
             <div className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-xl px-4 py-3">
               <Eye size={14} className="text-emerald-400 shrink-0" />
-              <span className="text-xs text-[#a1a1aa] flex-1">
+              <span className="text-xs text-[#43554b] flex-1">
                 Public results page is live
               </span>
               <a
@@ -508,10 +508,10 @@ export default function PollAnalyticsPage() {
           <Card className="p-4 border-emerald-500/20 bg-emerald-500/5">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-white">
+                <p className="text-sm font-semibold text-[#17231d]">
                   Auto-publish at expiry
                 </p>
-                <p className="text-xs text-[#a1a1aa] mt-1">
+                <p className="text-xs text-[#43554b] mt-1">
                   If enabled, results publish automatically when this poll
                   expires.
                 </p>
@@ -528,22 +528,22 @@ export default function PollAnalyticsPage() {
 
         {/* ── Tabs ── */}
         <Tabs defaultValue="overview">
-          <TabsList className="bg-[#1a1a1a] border border-[#2a2a2a] mb-8">
+          <TabsList className="bg-[#ffffff] border border-[#d7e1da] mb-8">
             <TabsTrigger
               value="overview"
-              className="data-[state=active]:bg-[#6366f1] data-[state=active]:text-white text-[#a1a1aa]"
+              className="data-[state=active]:bg-[#0f9f8a] data-[state=active]:text-white text-[#43554b]"
             >
               Overview
             </TabsTrigger>
             <TabsTrigger
               value="questions"
-              className="data-[state=active]:bg-[#6366f1] data-[state=active]:text-white text-[#a1a1aa]"
+              className="data-[state=active]:bg-[#0f9f8a] data-[state=active]:text-white text-[#43554b]"
             >
               Questions ({overview.totalQuestions})
             </TabsTrigger>
             <TabsTrigger
               value="trend"
-              className="data-[state=active]:bg-[#6366f1] data-[state=active]:text-white text-[#a1a1aa]"
+              className="data-[state=active]:bg-[#0f9f8a] data-[state=active]:text-white text-[#43554b]"
             >
               Trend
             </TabsTrigger>
@@ -608,7 +608,7 @@ export default function PollAnalyticsPage() {
 
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
               <Card className="p-5">
-                <h3 className="text-sm font-semibold text-white mb-4">
+                <h3 className="text-sm font-semibold text-[#17231d] mb-4">
                   Respondent Type Distribution
                 </h3>
                 <ChartContainer
@@ -649,7 +649,7 @@ export default function PollAnalyticsPage() {
               </Card>
 
               <Card className="p-5">
-                <h3 className="text-sm font-semibold text-white mb-4">
+                <h3 className="text-sm font-semibold text-[#17231d] mb-4">
                   Answer Coverage
                 </h3>
                 <ChartContainer
@@ -686,20 +686,20 @@ export default function PollAnalyticsPage() {
             {/* Completion breakdown */}
             {overview.totalMandatoryQuestions > 0 && (
               <Card className="p-5">
-                <h3 className="text-sm font-semibold text-white mb-4">
+                <h3 className="text-sm font-semibold text-[#17231d] mb-4">
                   Mandatory Question Completion
                 </h3>
                 <div className="space-y-3">
                   <div>
-                    <div className="flex justify-between text-xs text-[#a1a1aa] mb-1.5">
+                    <div className="flex justify-between text-xs text-[#43554b] mb-1.5">
                       <span>Average mandatory completion</span>
-                      <span className="text-white font-medium">
+                      <span className="text-[#17231d] font-medium">
                         {overview.averageMandatoryCompletionRatePercent}%
                       </span>
                     </div>
-                    <div className="h-2 bg-[#2a2a2a] rounded-full overflow-hidden">
+                    <div className="h-2 bg-[#d7e1da] rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-[#6366f1] rounded-full transition-all duration-700"
+                        className="h-full bg-[#0f9f8a] rounded-full transition-all duration-700"
                         style={{
                           width: `${overview.averageMandatoryCompletionRatePercent}%`,
                         }}
@@ -707,16 +707,16 @@ export default function PollAnalyticsPage() {
                     </div>
                   </div>
                   <div>
-                    <div className="flex justify-between text-xs text-[#a1a1aa] mb-1.5">
+                    <div className="flex justify-between text-xs text-[#43554b] mb-1.5">
                       <span>
                         Fully completed all mandatory (
                         {overview.fullyCompletedMandatoryCount} respondents)
                       </span>
-                      <span className="text-white font-medium">
+                      <span className="text-[#17231d] font-medium">
                         {overview.mandatoryFullCompletionRatePercent}%
                       </span>
                     </div>
-                    <div className="h-2 bg-[#2a2a2a] rounded-full overflow-hidden">
+                    <div className="h-2 bg-[#d7e1da] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-emerald-500 rounded-full transition-all duration-700"
                         style={{
@@ -734,21 +734,21 @@ export default function PollAnalyticsPage() {
           <TabsContent value="questions" className="space-y-5">
             {!questions || questions.questions.length === 0 ? (
               <Card className="p-8 text-center">
-                <p className="text-[#71717a]">No responses yet</p>
+                <p className="text-[#566a60]">No responses yet</p>
               </Card>
             ) : (
               questions.questions.map((q, idx) => (
                 <Card key={q.questionId} className="p-5">
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div className="flex items-start gap-3 min-w-0">
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#6366f1]/10 border border-[#6366f1]/20 flex items-center justify-center text-xs font-semibold text-[#818cf8]">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 flex items-center justify-center text-xs font-semibold text-[#0f766e]">
                         {idx + 1}
                       </span>
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-white leading-snug">
+                        <p className="text-sm font-semibold text-[#17231d] leading-snug">
                           {q.text}
                         </p>
-                        <div className="flex items-center gap-3 mt-1 text-xs text-[#71717a]">
+                        <div className="flex items-center gap-3 mt-1 text-xs text-[#566a60]">
                           <span>{q.totalAnswers} answered</span>
                           <span>{q.skippedCount} skipped</span>
                         </div>
@@ -775,7 +775,7 @@ export default function PollAnalyticsPage() {
                   </div>
 
                   {q.totalAnswers === 0 && (
-                    <p className="text-xs text-[#52525b] mt-3 text-center">
+                    <p className="text-xs text-[#66786f] mt-3 text-center">
                       No answers for this question yet
                     </p>
                   )}
@@ -789,17 +789,17 @@ export default function PollAnalyticsPage() {
             <Card className="p-5">
               <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
                 <div>
-                  <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-                    <TrendingUp size={15} className="text-[#6366f1]" />
+                  <h3 className="text-sm font-semibold text-[#17231d] flex items-center gap-2">
+                    <TrendingUp size={15} className="text-[#0f9f8a]" />
                     Participation Over Time
                   </h3>
-                  <p className="text-xs text-[#71717a] mt-0.5">
+                  <p className="text-xs text-[#566a60] mt-0.5">
                     Response submissions per {trend?.bucket ?? "day"}
                   </p>
                 </div>
 
                 {/* Range selector */}
-                <div className="flex items-center gap-1 bg-[#111] border border-[#2a2a2a] rounded-lg p-1">
+                <div className="flex items-center gap-1 bg-white/70 border border-[#d7e1da] rounded-lg p-1">
                   {(["24h", "7d", "30d"] as const).map((r) => (
                     <button
                       key={r}
@@ -807,8 +807,8 @@ export default function PollAnalyticsPage() {
                       disabled={trendLoading}
                       className={`px-3 py-1 rounded text-xs font-medium transition-all ${
                         trendRange === r
-                          ? "bg-[#6366f1] text-white"
-                          : "text-[#71717a] hover:text-white"
+                          ? "bg-[#0f9f8a] text-white"
+                          : "text-[#566a60] hover:text-[#0f6f61]"
                       }`}
                     >
                       {r}
@@ -819,7 +819,7 @@ export default function PollAnalyticsPage() {
 
               {trendLoading ? (
                 <div className="h-40 flex items-center justify-center">
-                  <Loader2 size={24} className="animate-spin text-[#6366f1]" />
+                  <Loader2 size={24} className="animate-spin text-[#0f9f8a]" />
                 </div>
               ) : (
                 <TrendChart

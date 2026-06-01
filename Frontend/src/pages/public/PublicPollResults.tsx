@@ -20,14 +20,14 @@ function CenteredScreen({
   desc: string;
 }) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-4 gap-4">
+    <div className="min-h-screen pollpulse-page flex flex-col items-center justify-center px-4 gap-4">
       <div className="flex items-center gap-2 mb-4">
         <PollPulseLogo size={22} />
-        <span className="text-sm font-semibold text-white">PollPulse</span>
+        <span className="text-sm font-semibold text-[#17231d]">PollPulse</span>
       </div>
       {icon}
-      <h2 className="text-lg font-semibold text-white text-center">{title}</h2>
-      <p className="text-sm text-[#71717a] text-center max-w-xs">{desc}</p>
+      <h2 className="text-lg font-semibold text-[#17231d] text-center">{title}</h2>
+      <p className="text-sm text-[#566a60] text-center max-w-xs">{desc}</p>
     </div>
   );
 }
@@ -68,7 +68,7 @@ export default function PublicPollResults() {
   if (state === "loading") {
     return (
       <CenteredScreen
-        icon={<Loader2 size={32} className="text-[#6366f1] animate-spin" />}
+        icon={<Loader2 size={32} className="text-[#0f9f8a] animate-spin" />}
         title="Loading results..."
         desc="Fetching the published poll results."
       />

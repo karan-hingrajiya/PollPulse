@@ -5,12 +5,12 @@ import { PollPulseLogo } from "@/components/layout/Navbar";
 import { motion } from "framer-motion";
 
 const BAR_COLORS = [
-  "bg-[#6366f1]",
+  "bg-[#0f9f8a]",
   "bg-sky-500",
   "bg-emerald-500",
   "bg-amber-500",
   "bg-rose-500",
-  "bg-violet-500",
+  "bg-cyan-500",
 ];
 
 function formatDate(d?: string | null) {
@@ -28,13 +28,13 @@ interface PollResultsDisplayProps {
 
 export default function PollResultsDisplay({ results }: PollResultsDisplayProps) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] py-8 px-4">
+    <div className="min-h-screen pollpulse-page py-8 px-4">
       {/* Background glow */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99,102,241,0.06), transparent)",
+            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(15,159,138,0.06), transparent)",
         }}
       />
 
@@ -42,7 +42,7 @@ export default function PollResultsDisplay({ results }: PollResultsDisplayProps)
         {/* Logo */}
         <div className="flex items-center gap-2 mb-8">
           <PollPulseLogo size={22} />
-          <span className="text-sm font-semibold text-white">PollPulse</span>
+          <span className="text-sm font-semibold text-[#17231d]">PollPulse</span>
         </div>
 
         {/* Header card */}
@@ -54,18 +54,18 @@ export default function PollResultsDisplay({ results }: PollResultsDisplayProps)
             </div>
           </div>
 
-          <h1 className="text-xl font-bold text-white mb-1">{results.title}</h1>
+          <h1 className="text-xl font-bold text-[#17231d] mb-1">{results.title}</h1>
 
           {results.description && (
-            <p className="text-sm text-[#71717a] leading-relaxed mb-3">
+            <p className="text-sm text-[#566a60] leading-relaxed mb-3">
               {results.description}
             </p>
           )}
 
-          <div className="flex flex-wrap items-center gap-4 mt-3 text-xs text-[#52525b]">
+          <div className="flex flex-wrap items-center gap-4 mt-3 text-xs text-[#66786f]">
             <span className="flex items-center gap-1.5">
               <Users size={11} />
-              <span className="text-[#a1a1aa] font-medium">
+              <span className="text-[#43554b] font-medium">
                 {results.totalResponses.toLocaleString()}
               </span>{" "}
               total responses
@@ -98,20 +98,20 @@ export default function PollResultsDisplay({ results }: PollResultsDisplayProps)
                 <Card className="p-5">
                   {/* Question header */}
                   <div className="flex items-start gap-3 mb-4">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#6366f1]/10 border border-[#6366f1]/20 flex items-center justify-center text-xs font-bold text-[#818cf8]">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 flex items-center justify-center text-xs font-bold text-[#0f766e]">
                       {qi + 1}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-white leading-snug">
+                      <p className="text-sm font-semibold text-[#17231d] leading-snug">
                         {q.text}
                       </p>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-[#52525b]">
+                      <div className="flex items-center gap-3 mt-1 text-xs text-[#66786f]">
                         <span>{q.totalAnswered} answered</span>
                         {q.skippedCount > 0 && (
                           <span>{q.skippedCount} skipped</span>
                         )}
                         {topOption && topOption.count > 0 && (
-                          <span className="text-[#6366f1]">
+                          <span className="text-[#0f9f8a]">
                             "{topOption.text}" leads
                           </span>
                         )}
@@ -132,26 +132,26 @@ export default function PollResultsDisplay({ results }: PollResultsDisplayProps)
                               )}
                               <span
                                 className={`font-medium truncate ${
-                                  isTop ? "text-white" : "text-[#a1a1aa]"
+                                  isTop ? "text-[#17231d]" : "text-[#43554b]"
                                 }`}
                               >
                                 {opt.text}
                               </span>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-[#52525b]">
+                              <span className="text-[#66786f]">
                                 {opt.count.toLocaleString()}
                               </span>
                               <span
                                 className={`font-semibold w-10 text-right ${
-                                  isTop ? "text-white" : "text-[#71717a]"
+                                  isTop ? "text-[#17231d]" : "text-[#566a60]"
                                 }`}
                               >
                                 {opt.percentage.toFixed(1)}%
                               </span>
                             </div>
                           </div>
-                          <div className="h-2.5 bg-[#1a1a1a] rounded-full overflow-hidden">
+                          <div className="h-2.5 bg-[#d7e1da] rounded-full overflow-hidden">
                             <motion.div
                               className={`h-full rounded-full ${BAR_COLORS[oi % BAR_COLORS.length]}`}
                               initial={{ width: 0 }}
@@ -169,7 +169,7 @@ export default function PollResultsDisplay({ results }: PollResultsDisplayProps)
                   </div>
 
                   {q.totalAnswered === 0 && (
-                    <p className="text-xs text-[#3a3a3a] text-center mt-3">
+                    <p className="text-xs text-[#b6c5bb] text-center mt-3">
                       No responses for this question
                     </p>
                   )}
@@ -180,9 +180,9 @@ export default function PollResultsDisplay({ results }: PollResultsDisplayProps)
         </div>
 
         {/* Footer note */}
-        <p className="text-xs text-[#3a3a3a] text-center mt-8">
+        <p className="text-xs text-[#b6c5bb] text-center mt-8">
           Results powered by{" "}
-          <span className="text-[#6366f1]">PollPulse</span>
+          <span className="text-[#0f9f8a]">PollPulse</span>
         </p>
       </div>
     </div>

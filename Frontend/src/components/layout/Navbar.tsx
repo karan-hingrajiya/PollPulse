@@ -40,7 +40,7 @@ export function PollPulseLogo({ size = 32 }: { size?: number }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="32" height="32" rx="8" fill="#6366f1" />
+      <rect width="32" height="32" rx="8" fill="#0f9f8a" />
       <path
         d="M8 20h2.5v-8H8v8zm4.5 0h2.5v-11h-2.5v11zm4.5 0h2.5v-5h-2.5v5zm4.5 0H24v-9h-2.5v9z"
         fill="white"
@@ -159,12 +159,12 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
   const initial = displayName.charAt(0).toUpperCase();
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-[#1a1a1a]/80 backdrop-blur-xl bg-[#0a0a0a]/70">
+    <nav className="sticky top-0 z-50 border-b border-[#dbe5df]/80 backdrop-blur-xl bg-[#f8faf5]/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-3">
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <PollPulseLogo size={28} />
-            <span className="text-lg font-bold tracking-tight text-white">PollPulse</span>
+            <span className="text-lg font-bold tracking-tight text-[#17231d]">PollPulse</span>
           </Link>
 
           {!isLoggedIn && publicLinks.length > 0 && (
@@ -173,7 +173,7 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-sm text-[#71717a] hover:text-white transition-colors"
+                  className="text-sm text-[#566a60] hover:text-[#0f6f61] transition-colors"
                 >
                   {item.label}
                 </a>
@@ -188,8 +188,8 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
                   to="/dashboard"
                   className={`text-sm font-medium transition-colors hidden sm:block ${
                     location.pathname.startsWith("/dashboard")
-                      ? "text-white"
-                      : "text-[#a1a1aa] hover:text-white"
+                      ? "text-[#0f6f61]"
+                      : "text-[#566a60] hover:text-[#17231d]"
                   }`}
                 >
                   <span className="inline-flex items-center gap-1.5">
@@ -206,13 +206,13 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
                 </Link>
 
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#6366f1]/20 border border-[#6366f1]/30 flex items-center justify-center">
-                    <span className="text-sm font-semibold text-[#818cf8]">{initial}</span>
+                  <div className="w-8 h-8 rounded-full bg-[#e1f6f2] border border-[#a8ddd5] flex items-center justify-center">
+                    <span className="text-sm font-semibold text-[#0f6f61]">{initial}</span>
                   </div>
                   <div className="hidden lg:block">
-                    <p className="text-sm font-medium text-white leading-none">{displayName}</p>
+                    <p className="text-sm font-medium text-[#17231d] leading-none">{displayName}</p>
                     {currentUser?.email && (
-                      <p className="text-xs text-[#a1a1aa] mt-0.5">{currentUser.email}</p>
+                      <p className="text-xs text-[#566a60] mt-0.5">{currentUser.email}</p>
                     )}
                   </div>
                 </div>
@@ -221,7 +221,7 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
                   <AlertDialogTrigger asChild>
                     <button
                       disabled={isLoggingOut}
-                      className="p-2 rounded-lg text-[#a1a1aa] hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 border border-transparent hover:border-red-500/20 disabled:opacity-50"
+                      className="p-2 rounded-lg text-[#566a60] hover:text-red-600 hover:bg-red-50 transition-all duration-200 border border-transparent hover:border-red-200 disabled:opacity-50"
                       title="Logout"
                     >
                       {isLoggingOut ? (
@@ -244,19 +244,19 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
                       )}
                     </button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-[#1a1a1a] border-[#2a2a2a] text-white">
+                  <AlertDialogContent className="bg-white border-[#d7e1da] text-[#17231d]">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Log out of PollPulse?</AlertDialogTitle>
-                      <AlertDialogDescription className="text-[#a1a1aa]">
+                      <AlertDialogDescription className="text-[#566a60]">
                         You will be signed out from this device and need to sign in again to create or manage polls.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel className="bg-transparent border-[#2a2a2a] text-white hover:bg-[#2a2a2a] hover:text-white">
+                      <AlertDialogCancel className="bg-transparent border-[#cbd8d0] text-[#17231d] hover:bg-[#eef5f0] hover:text-[#17231d]">
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
-                        className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20"
+                        className="bg-red-50 text-red-700 hover:bg-red-100 border border-red-200"
                         onClick={handleLogout}
                       >
                         Yes, log out
@@ -269,7 +269,7 @@ export default function Navbar({ user, publicLinks = [] }: NavbarProps) {
               <>
                 <Link
                   to="/login"
-                  className="text-sm text-[#a1a1aa] hover:text-white transition-colors hidden sm:block"
+                  className="text-sm text-[#566a60] hover:text-[#17231d] transition-colors hidden sm:block"
                 >
                   Sign in
                 </Link>

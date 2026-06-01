@@ -102,17 +102,17 @@ export default function Register({
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 mb-4 animate-in zoom-in duration-300">
             <CheckCircle2 size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-[#17231d] mb-2">
             Check your email
           </h2>
-          <p className="text-sm text-[#71717a] mb-1">
+          <p className="text-sm text-[#566a60] mb-1">
             We sent a verification link to{" "}
-            <span className="text-white font-medium">{email}</span>.
+            <span className="text-[#17231d] font-medium">{email}</span>.
           </p>
-          <p className="text-sm text-[#71717a] mb-6">
+          <p className="text-sm text-[#566a60] mb-6">
             Click it to activate your account.
           </p>
-          <p className="text-xs text-[#52525b] mb-6">
+          <p className="text-xs text-[#66786f] mb-6">
             Didn&apos;t receive it? Check your spam folder.
           </p>
           <Button className="w-full justify-center" onClick={onNavigateToLogin}>
@@ -133,10 +133,10 @@ export default function Register({
       }}
     >
       <div className="text-center mb-6">
-        <h1 className="text-xl font-semibold text-white">
+        <h1 className="text-xl font-semibold text-[#17231d]">
           Create your account
         </h1>
-        <p className="text-sm text-[#71717a] mt-1">
+        <p className="text-sm text-[#566a60] mt-1">
           Start creating polls in minutes
         </p>
       </div>
@@ -150,7 +150,7 @@ export default function Register({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-white">
+          <label className="block text-sm font-medium text-[#17231d]">
             Full Name
           </label>
           <input
@@ -163,8 +163,8 @@ export default function Register({
             }}
             placeholder="Enter your full name"
             className={cn(
-              "w-full h-10 px-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-white placeholder:text-[#52525b]",
-              "focus:outline-none focus:border-[#6366f1] focus:ring-1 focus:ring-[#6366f1]/30",
+              "w-full h-10 px-3 bg-[#ffffff] border border-[#d7e1da] rounded-lg text-sm text-[#17231d] placeholder:text-[#66786f]",
+              "focus:outline-none focus:border-[#0f9f8a] focus:ring-1 focus:ring-[#0f9f8a]/30",
               "transition-all duration-200",
               fieldErrors.name &&
                 "border-red-500 focus:border-red-500 focus:ring-red-500/30",
@@ -177,11 +177,11 @@ export default function Register({
 
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-white">Email</label>
+          <label className="block text-sm font-medium text-[#17231d]">Email</label>
           <div className="relative">
             <Mail
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#52525b]"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#66786f]"
             />
             <input
               type="email"
@@ -193,8 +193,8 @@ export default function Register({
               }}
               placeholder="Enter your email"
               className={cn(
-                "w-full h-10 pl-10 pr-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-white placeholder:text-[#52525b]",
-                "focus:outline-none focus:border-[#6366f1] focus:ring-1 focus:ring-[#6366f1]/30",
+                "w-full h-10 pl-10 pr-3 bg-[#ffffff] border border-[#d7e1da] rounded-lg text-sm text-[#17231d] placeholder:text-[#66786f]",
+                "focus:outline-none focus:border-[#0f9f8a] focus:ring-1 focus:ring-[#0f9f8a]/30",
                 "transition-all duration-200",
                 fieldErrors.email &&
                   "border-red-500 focus:border-red-500 focus:ring-red-500/30",
@@ -219,7 +219,7 @@ export default function Register({
             placeholder="Create a password"
             error={fieldErrors.password}
           />
-          <p className="text-xs text-[#52525b] px-0.5">
+          <p className="text-xs text-[#66786f] px-0.5">
             Must be 8+ characters with uppercase, lowercase, and a number
           </p>
           {getPasswordHint() && (

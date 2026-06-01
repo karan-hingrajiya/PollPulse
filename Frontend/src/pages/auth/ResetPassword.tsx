@@ -110,16 +110,16 @@ export default function ResetPassword({
         <div className="relative text-center py-4">
           {locked && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40">
-              <Loader2 size={36} className="animate-spin text-white" />
+              <Loader2 size={36} className="animate-spin text-[#17231d]" />
             </div>
           )}
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 mb-4 animate-in zoom-in duration-300">
             <CheckCircle2 size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-[#17231d] mb-2">
             Password updated!
           </h2>
-          <p className="text-sm text-[#71717a] mb-6">
+          <p className="text-sm text-[#566a60] mb-6">
             Your password has been successfully reset.
           </p>
           <Button className="w-full justify-center" onClick={goToLogin} >
@@ -138,8 +138,8 @@ export default function ResetPassword({
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10 mb-4 animate-in zoom-in duration-300">
             <XCircle size={32} className="text-red-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">Link expired</h2>
-          <p className="text-sm text-[#71717a] mb-6">
+          <h2 className="text-xl font-semibold text-[#17231d] mb-2">Link expired</h2>
+          <p className="text-sm text-[#566a60] mb-6">
             This password reset link has expired or is invalid. Please request a
             new one.
           </p>
@@ -155,11 +155,11 @@ export default function ResetPassword({
   return (
     <AuthLayout>
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#6366f1]/10 mb-3">
-          <Lock size={24} className="text-[#818cf8]" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#0f9f8a]/10 mb-3">
+          <Lock size={24} className="text-[#0f766e]" />
         </div>
-        <h1 className="text-xl font-semibold text-white">Create new password</h1>
-        <p className="text-sm text-[#71717a] mt-1">
+        <h1 className="text-xl font-semibold text-[#17231d]">Create new password</h1>
+        <p className="text-sm text-[#566a60] mt-1">
           Your new password must be different from your previous one.
         </p>
       </div>
@@ -190,7 +190,7 @@ export default function ResetPassword({
                       "h-1 flex-1 rounded-full transition-all duration-300",
                       strengthScore >= level
                         ? strengthColors[strengthScore - 1]
-                        : "bg-[#2a2a2a]"
+                        : "bg-[#d7e1da]"
                     )}
                   />
                 ))}
@@ -198,7 +198,7 @@ export default function ResetPassword({
               <p
                 className={cn(
                   "text-xs font-medium transition-colors duration-300",
-                  strengthTextColors[strengthScore - 1] || "text-[#52525b]"
+                  strengthTextColors[strengthScore - 1] || "text-[#66786f]"
                 )}
               >
                 {strengthLabels[strengthScore - 1] || "Weak"}

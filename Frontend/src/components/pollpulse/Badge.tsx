@@ -9,13 +9,13 @@ interface BadgeProps {
 }
 
 const badgeStyles: Record<BadgeVariant, string> = {
-  green: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  gray: "bg-[#2a2a2a] text-[#a1a1aa] border-[#333333]",
-  indigo: "bg-[#6366f1]/10 text-[#818cf8] border-[#6366f1]/20",
-  red: "bg-red-500/10 text-red-400 border-red-500/20",
-  blue: "bg-sky-500/10 text-sky-400 border-sky-500/20",
-  purple: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  rose: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+  green: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  gray: "bg-slate-100 text-slate-600 border-slate-200",
+  indigo: "bg-teal-50 text-teal-700 border-teal-200",
+  red: "bg-red-50 text-red-700 border-red-200",
+  blue: "bg-sky-50 text-sky-700 border-sky-200",
+  purple: "bg-cyan-50 text-cyan-700 border-cyan-200",
+  rose: "bg-rose-50 text-rose-700 border-rose-200",
 };
 
 export default function Badge({
@@ -24,7 +24,7 @@ export default function Badge({
   className = "",
 }: BadgeProps) {
   const base =
-    "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border";
+    "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border";
 
   return (
     <span className={`${base} ${badgeStyles[variant] || badgeStyles.gray} ${className}`}>

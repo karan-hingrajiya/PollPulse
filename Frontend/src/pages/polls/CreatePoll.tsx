@@ -61,16 +61,16 @@ function OptionInput({
 }) {
   return (
     <div className="flex items-center gap-2 group">
-      <GripVertical size={14} className="text-[#3a3a3a] shrink-0" />
-      <div className="flex-1 flex items-center gap-2 bg-[#111] border border-[#2a2a2a] rounded-lg px-3 py-2 focus-within:border-[#6366f1]/50 transition-colors">
-        <span className="text-xs text-[#52525b] font-medium w-5 shrink-0">
+      <GripVertical size={14} className="text-[#b6c5bb] shrink-0" />
+      <div className="flex-1 flex items-center gap-2 bg-white/70 border border-[#d7e1da] rounded-lg px-3 py-2 focus-within:border-[#0f9f8a]/50 transition-colors">
+        <span className="text-xs text-[#66786f] font-medium w-5 shrink-0">
           {String.fromCharCode(65 + index)}
         </span>
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={`Option ${String.fromCharCode(65 + index)}`}
-          className="flex-1 bg-transparent text-sm text-white placeholder:text-[#3a3a3a] outline-none"
+          className="flex-1 bg-transparent text-sm text-[#17231d] placeholder:text-[#b6c5bb] outline-none"
           maxLength={200}
         />
       </div>
@@ -78,7 +78,7 @@ function OptionInput({
         type="button"
         onClick={onRemove}
         disabled={!canRemove}
-        className="p-1.5 rounded-lg text-[#3a3a3a] hover:text-red-400 hover:bg-red-400/10 transition-all disabled:opacity-0 disabled:pointer-events-none"
+        className="p-1.5 rounded-lg text-[#b6c5bb] hover:text-red-400 hover:bg-red-400/10 transition-all disabled:opacity-0 disabled:pointer-events-none"
       >
         <Trash2 size={13} />
       </button>
@@ -125,7 +125,7 @@ function QuestionCard({
     <Card className="overflow-hidden">
       {/* Question header */}
       <div className="p-4 flex items-center gap-3">
-        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#6366f1]/10 border border-[#6366f1]/20 flex items-center justify-center text-xs font-bold text-[#818cf8]">
+        <div className="flex-shrink-0 w-7 h-7 rounded-full bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 flex items-center justify-center text-xs font-bold text-[#0f766e]">
           {index + 1}
         </div>
 
@@ -133,14 +133,14 @@ function QuestionCard({
           value={question.text}
           onChange={(e) => onUpdate({ text: e.target.value })}
           placeholder="Enter your question..."
-          className="flex-1 bg-transparent text-sm font-medium text-white placeholder:text-[#3a3a3a] outline-none"
+          className="flex-1 bg-transparent text-sm font-medium text-[#17231d] placeholder:text-[#b6c5bb] outline-none"
         />
 
         <div className="flex items-center gap-1 ml-auto pl-2">
           <button
             type="button"
             onClick={() => onUpdate({ isCollapsed: !question.isCollapsed })}
-            className="p-1.5 rounded-lg text-[#52525b] hover:text-white hover:bg-[#2a2a2a] transition-all"
+            className="p-1.5 rounded-lg text-[#66786f] hover:text-[#0f6f61] hover:bg-[#d7e1da] transition-all"
           >
             {question.isCollapsed ? (
               <ChevronDown size={15} />
@@ -152,7 +152,7 @@ function QuestionCard({
             <button
               type="button"
               onClick={onRemove}
-              className="p-1.5 rounded-lg text-[#52525b] hover:text-red-400 hover:bg-red-400/10 transition-all"
+              className="p-1.5 rounded-lg text-[#66786f] hover:text-red-400 hover:bg-red-400/10 transition-all"
             >
               <Trash2 size={15} />
             </button>
@@ -162,7 +162,7 @@ function QuestionCard({
 
       {/* Options */}
       {!question.isCollapsed && (
-        <div className="px-4 pb-4 space-y-3 border-t border-[#2a2a2a] pt-4">
+        <div className="px-4 pb-4 space-y-3 border-t border-[#d7e1da] pt-4">
           <div className="space-y-2">
             {question.options.map((opt, optIdx) => (
               <OptionInput
@@ -179,18 +179,18 @@ function QuestionCard({
           <button
             type="button"
             onClick={addOption}
-            className="flex items-center gap-1.5 text-xs text-[#6366f1] hover:text-[#818cf8] transition-colors py-1"
+            className="flex items-center gap-1.5 text-xs text-[#0f9f8a] hover:text-[#0f766e] transition-colors py-1"
           >
             <Plus size={12} />
             Add option
           </button>
 
-          <div className="flex items-center justify-between pt-2 border-t border-[#1a1a1a]">
-            <span className="text-xs text-[#71717a]">Mark as required</span>
+          <div className="flex items-center justify-between pt-2 border-t border-[#ffffff]">
+            <span className="text-xs text-[#566a60]">Mark as required</span>
             <Switch
               checked={question.isMandatory}
               onCheckedChange={(v) => onUpdate({ isMandatory: v })}
-              className="data-[state=checked]:bg-[#6366f1] scale-90"
+              className="data-[state=checked]:bg-[#0f9f8a] scale-90"
             />
           </div>
         </div>
@@ -221,17 +221,17 @@ function DateTimeInput({
   return (
     <div>
       <div
-        className={`flex items-center gap-2 bg-[#1a1a1a] border rounded-lg px-3 py-2.5 focus-within:border-[#6366f1]/60 transition-colors ${
-          error ? "border-red-500/60" : "border-[#2a2a2a]"
+        className={`flex items-center gap-2 bg-[#ffffff] border rounded-lg px-3 py-2.5 focus-within:border-[#0f9f8a]/60 transition-colors ${
+          error ? "border-red-500/60" : "border-[#d7e1da]"
         }`}
       >
-        <CalendarIcon size={15} className="text-[#52525b] shrink-0" />
+        <CalendarIcon size={15} className="text-[#66786f] shrink-0" />
         <input
           type="datetime-local"
           value={value}
           min={min}
           onChange={(e) => onChange(e.target.value)}
-          className="flex-1 bg-transparent text-sm text-white outline-none [color-scheme:dark]"
+          className="flex-1 bg-transparent text-sm text-[#17231d] outline-none [color-scheme:light]"
         />
       </div>
       {error && (
@@ -364,7 +364,7 @@ export default function CreatePollPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f]">
+    <div className="min-h-screen pollpulse-page">
       <Navbar />
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
@@ -372,13 +372,13 @@ export default function CreatePollPage() {
         <div className="mb-8">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex items-center gap-1.5 text-sm text-[#71717a] hover:text-white transition-colors mb-4"
+            className="flex items-center gap-1.5 text-sm text-[#566a60] hover:text-[#0f6f61] transition-colors mb-4"
           >
             <ArrowLeft size={15} />
             Back to Dashboard
           </button>
-          <h1 className="text-2xl font-bold text-white">Create a new poll</h1>
-          <p className="text-sm text-[#71717a] mt-1">
+          <h1 className="text-2xl font-bold text-[#17231d]">Create a new poll</h1>
+          <p className="text-sm text-[#566a60] mt-1">
             Build your poll, set options, and share it with anyone.
           </p>
         </div>
@@ -386,7 +386,7 @@ export default function CreatePollPage() {
         <div className="space-y-6">
           {/* ── Poll Settings ── */}
           <Card className="p-5 space-y-4">
-            <h2 className="text-sm font-semibold text-white flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-[#17231d] flex items-center gap-2">
               <svg
                 width="15"
                 height="15"
@@ -394,7 +394,7 @@ export default function CreatePollPage() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="text-[#6366f1]"
+                className="text-[#0f9f8a]"
               >
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M9 9h6M9 13h4" />
@@ -404,7 +404,7 @@ export default function CreatePollPage() {
 
             {/* Title */}
             <div>
-              <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">
+              <label className="block text-xs font-medium text-[#43554b] mb-1.5">
                 Title <span className="text-red-400">*</span>
               </label>
               <input
@@ -415,8 +415,8 @@ export default function CreatePollPage() {
                 }}
                 placeholder="What is this poll about?"
                 maxLength={300}
-                className={`w-full bg-[#1a1a1a] border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-[#3a3a3a] outline-none focus:border-[#6366f1]/60 transition-colors ${
-                  errors.title ? "border-red-500/60" : "border-[#2a2a2a]"
+                className={`w-full bg-[#ffffff] border rounded-lg px-3 py-2.5 text-sm text-[#17231d] placeholder:text-[#b6c5bb] outline-none focus:border-[#0f9f8a]/60 transition-colors ${
+                  errors.title ? "border-red-500/60" : "border-[#d7e1da]"
                 }`}
               />
               {errors.title && (
@@ -428,9 +428,9 @@ export default function CreatePollPage() {
 
             {/* Description */}
             <div>
-              <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">
+              <label className="block text-xs font-medium text-[#43554b] mb-1.5">
                 Description{" "}
-                <span className="text-[#52525b] font-normal">(optional)</span>
+                <span className="text-[#66786f] font-normal">(optional)</span>
               </label>
               <textarea
                 value={description}
@@ -441,8 +441,8 @@ export default function CreatePollPage() {
                 placeholder="Give respondents some context..."
                 rows={3}
                 maxLength={1000}
-                className={`w-full bg-[#1a1a1a] border rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-[#3a3a3a] outline-none focus:border-[#6366f1]/60 transition-colors resize-none ${
-                  errors.description ? "border-red-500/60" : "border-[#2a2a2a]"
+                className={`w-full bg-[#ffffff] border rounded-lg px-3 py-2.5 text-sm text-[#17231d] placeholder:text-[#b6c5bb] outline-none focus:border-[#0f9f8a]/60 transition-colors resize-none ${
+                  errors.description ? "border-red-500/60" : "border-[#d7e1da]"
                 }`}
               />
               {errors.description && (
@@ -454,7 +454,7 @@ export default function CreatePollPage() {
 
             {/* Expiry */}
             <div>
-              <label className="block text-xs font-medium text-[#a1a1aa] mb-1.5">
+              <label className="block text-xs font-medium text-[#43554b] mb-1.5">
                 Expires at <span className="text-red-400">*</span>
               </label>
               <DateTimeInput
@@ -470,28 +470,28 @@ export default function CreatePollPage() {
             {/* Anonymous toggle */}
             <div className="flex items-center justify-between pt-1">
               <div>
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-medium text-[#17231d]">
                   Anonymous responses
                 </p>
-                <p className="text-xs text-[#71717a] mt-0.5">
+                <p className="text-xs text-[#566a60] mt-0.5">
                   Respondents won't need to log in
                 </p>
               </div>
               <Switch
                 checked={isAnonymous}
                 onCheckedChange={setIsAnonymous}
-                className="data-[state=checked]:bg-[#6366f1]"
+                className="data-[state=checked]:bg-[#0f9f8a]"
               />
             </div>
 
             <div className="rounded-xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/10 to-cyan-500/5 p-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-white flex items-center gap-2">
+                  <p className="text-sm font-semibold text-[#17231d] flex items-center gap-2">
                     <Sparkles size={14} className="text-emerald-400" />
                     Auto-publish when poll expires
                   </p>
-                  <p className="text-xs text-[#a1a1aa] mt-1">
+                  <p className="text-xs text-[#43554b] mt-1">
                     Save time by publishing results automatically right after expiry.
                     You can change this later in the poll analytics page too.
                   </p>
@@ -508,13 +508,13 @@ export default function CreatePollPage() {
           {/* ── Questions ── */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-white">
+              <h2 className="text-sm font-semibold text-[#17231d]">
                 Questions{" "}
-                <span className="text-[#52525b] font-normal">
+                <span className="text-[#66786f] font-normal">
                   ({questions.length})
                 </span>
               </h2>
-              <span className="text-xs text-[#52525b]">
+              <span className="text-xs text-[#66786f]">
                 {questions.length}/20
               </span>
             </div>
@@ -543,7 +543,7 @@ export default function CreatePollPage() {
             <button
               type="button"
               onClick={addQuestion}
-              className="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-[#2a2a2a] rounded-xl text-sm text-[#52525b] hover:text-[#6366f1] hover:border-[#6366f1]/40 transition-all"
+              className="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-[#d7e1da] rounded-xl text-sm text-[#66786f] hover:text-[#0f9f8a] hover:border-[#0f9f8a]/40 transition-all"
             >
               <Plus size={15} />
               Add question

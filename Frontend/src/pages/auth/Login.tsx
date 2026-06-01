@@ -122,8 +122,8 @@ export default function Login({
     >
       {/* Header */}
       <div className="text-center mb-6">
-        <h1 className="text-xl font-semibold text-white">Welcome back</h1>
-        <p className="text-sm text-[#71717a] mt-1">
+        <h1 className="text-xl font-semibold text-[#17231d]">Welcome back</h1>
+        <p className="text-sm text-[#566a60] mt-1">
           Sign in to your PollPulse account
         </p>
       </div>
@@ -140,7 +140,7 @@ export default function Login({
               type="button"
               onClick={handleResendVerification}
               disabled={isResending}
-              className="mt-2 text-xs text-amber-200 hover:text-white transition-colors disabled:opacity-60"
+              className="mt-2 text-xs text-amber-200 hover:text-[#0f6f61] transition-colors disabled:opacity-60"
             >
               {isResending ? "Sending..." : "Resend verification email"}
             </button>
@@ -170,11 +170,11 @@ export default function Login({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email */}
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-white">Email</label>
+          <label className="block text-sm font-medium text-[#17231d]">Email</label>
           <div className="relative">
             <Mail
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#52525b]"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#66786f]"
             />
             <input
               type="email"
@@ -186,8 +186,8 @@ export default function Login({
               }}
               placeholder="Enter your email"
               className={cn(
-                "w-full h-10 pl-10 pr-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-white placeholder:text-[#52525b]",
-                "focus:outline-none focus:border-[#6366f1] focus:ring-1 focus:ring-[#6366f1]/30",
+                "w-full h-10 pl-10 pr-3 bg-[#ffffff] border border-[#d7e1da] rounded-lg text-sm text-[#17231d] placeholder:text-[#66786f]",
+                "focus:outline-none focus:border-[#0f9f8a] focus:ring-1 focus:ring-[#0f9f8a]/30",
                 "transition-all duration-200",
                 fieldErrors.email &&
                   "border-red-500 focus:border-red-500 focus:ring-red-500/30",
@@ -216,7 +216,7 @@ export default function Login({
             <button
               type="button"
               onClick={onNavigateToForgotPassword}
-              className="text-xs text-[#71717a] hover:text-[#6366f1] transition-colors"
+              className="text-xs text-[#566a60] hover:text-[#0f9f8a] transition-colors"
             >
               Forgot password?
             </button>
@@ -239,11 +239,11 @@ export default function Login({
 
       {/* Register link mobile fallback */}
       <div className="mt-6 text-center sm:hidden">
-        <p className="text-sm text-[#71717a]">
+        <p className="text-sm text-[#566a60]">
           Don&apos;t have an account?{" "}
           <Link
             to="/register"
-            className="text-[#6366f1] hover:text-[#818cf8] transition-colors font-medium"
+            className="text-[#0f9f8a] hover:text-[#0f766e] transition-colors font-medium"
           >
             Sign up
           </Link>

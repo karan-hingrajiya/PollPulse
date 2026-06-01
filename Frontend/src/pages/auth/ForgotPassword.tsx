@@ -62,17 +62,17 @@ export default function ForgotPassword({
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 mb-4 animate-in zoom-in duration-300">
             <CheckCircle2 size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-[#17231d] mb-2">
             Reset link sent
           </h2>
-          <p className="text-sm text-[#71717a] mb-1">
+          <p className="text-sm text-[#566a60] mb-1">
             We sent a password reset link to{" "}
-            <span className="text-white font-medium">{email}</span>.
+            <span className="text-[#17231d] font-medium">{email}</span>.
           </p>
-          <p className="text-sm text-[#71717a] mb-2">
+          <p className="text-sm text-[#566a60] mb-2">
             The link expires in 15 minutes.
           </p>
-          <p className="text-xs text-[#52525b] mb-6">
+          <p className="text-xs text-[#66786f] mb-6">
             Didn&apos;t get it? Check your spam folder.
           </p>
           <Button className="w-full justify-center" onClick={goToLogin}>
@@ -95,7 +95,7 @@ export default function ForgotPassword({
       {/* Back button */}
       <button
         onClick={goToLogin}
-        className="flex items-center gap-1.5 text-sm text-[#71717a] hover:text-white transition-colors mb-4 -ml-1"
+        className="flex items-center gap-1.5 text-sm text-[#566a60] hover:text-[#0f6f61] transition-colors mb-4 -ml-1"
       >
         <ArrowLeft size={16} />
         Back
@@ -103,13 +103,13 @@ export default function ForgotPassword({
 
       {/* Icon */}
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#6366f1]/10 mb-3">
-          <Mail size={24} className="text-[#818cf8]" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#0f9f8a]/10 mb-3">
+          <Mail size={24} className="text-[#0f766e]" />
         </div>
-        <h1 className="text-xl font-semibold text-white">
+        <h1 className="text-xl font-semibold text-[#17231d]">
           Forgot your password?
         </h1>
-        <p className="text-sm text-[#71717a] mt-1">
+        <p className="text-sm text-[#566a60] mt-1">
           Enter your email and we&apos;ll send you a reset link.
         </p>
       </div>
@@ -122,11 +122,11 @@ export default function ForgotPassword({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-1.5">
-          <label className="block text-sm font-medium text-white">Email</label>
+          <label className="block text-sm font-medium text-[#17231d]">Email</label>
           <div className="relative">
             <Mail
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#52525b]"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#66786f]"
             />
             <input
               type="email"
@@ -137,8 +137,8 @@ export default function ForgotPassword({
               }}
               placeholder="Enter your email"
               className={cn(
-                "w-full h-10 pl-10 pr-3 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-sm text-white placeholder:text-[#52525b]",
-                "focus:outline-none focus:border-[#6366f1] focus:ring-1 focus:ring-[#6366f1]/30",
+                "w-full h-10 pl-10 pr-3 bg-[#ffffff] border border-[#d7e1da] rounded-lg text-sm text-[#17231d] placeholder:text-[#66786f]",
+                "focus:outline-none focus:border-[#0f9f8a] focus:ring-1 focus:ring-[#0f9f8a]/30",
                 "transition-all duration-200",
                 fieldError &&
                   "border-red-500 focus:border-red-500 focus:ring-red-500/30",

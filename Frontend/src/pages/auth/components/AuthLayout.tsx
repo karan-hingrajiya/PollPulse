@@ -15,40 +15,39 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children, footer }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
-      {/* Subtle background gradient */}
+    <div className="min-h-screen pollpulse-page flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
+      <div className="absolute inset-0 pollpulse-grid opacity-50 pointer-events-none" />
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute -top-28 left-1/2 h-72 w-[34rem] -translate-x-1/2 rounded-full pollpulse-aurora opacity-70 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-10 right-8 h-28 w-28 rounded-2xl border border-[#b8ded6] bg-white/45 rotate-12 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.08), transparent)",
+          boxShadow: "18px 18px 0 rgba(15,159,138,0.08)",
         }}
       />
-
-      {/* Floating orbs */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[#6366f1]/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-[#6366f1]/3 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Logo above card */}
       <div className="relative z-10 flex items-center gap-2.5 mb-8">
         <PollPulseLogo size={28} />
-        <span className="text-xl font-bold text-white tracking-tight">
+        <span className="text-xl font-bold text-[#17231d] tracking-tight">
           PollPulse
         </span>
       </div>
 
       {/* Card */}
-      <div className="relative z-10 w-full max-w-[440px] bg-[#111111] border border-[#222222] rounded-xl p-8 shadow-[0_0_40px_rgba(0,0,0,0.4)]">
+      <div className="relative z-10 w-full max-w-[440px] pollpulse-surface rounded-lg p-8">
         {children}
       </div>
 
       {/* Footer link */}
       {footer && (
-        <p className="relative z-10 mt-6 text-sm text-[#71717a]">
+        <p className="relative z-10 mt-6 text-sm text-[#566a60]">
           {footer.text}{" "}
           <Link
             to={footer.to}
-            className="text-[#6366f1] hover:text-[#818cf8] transition-colors font-medium"
+            className="text-[#0f9f8a] hover:text-[#0f766e] transition-colors font-medium"
           >
             {footer.linkText}
           </Link>

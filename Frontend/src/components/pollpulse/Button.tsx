@@ -14,15 +14,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-[#6366f1] text-white hover:bg-[#5558e0] border-transparent shadow-[0_0_20px_rgba(99,102,241,0.15)]",
+    "bg-[#0f9f8a] text-white hover:bg-[#0b8574] border-transparent shadow-[0_10px_28px_rgba(15,159,138,0.22)]",
   outline:
-    "bg-transparent border-[#2a2a2a] text-[#a1a1aa] hover:text-white hover:border-[#6366f1] hover:bg-[#6366f1]/5",
+    "bg-white/70 border-[#cbd8d0] text-[#24352d] hover:text-[#0f6f61] hover:border-[#0f9f8a]/50 hover:bg-[#e8f7f4]",
   ghost:
-    "bg-transparent border-transparent text-[#a1a1aa] hover:text-white hover:bg-[#1a1a1a]",
+    "bg-transparent border-transparent text-[#51645a] hover:text-[#123128] hover:bg-[#eaf1ec]",
   danger:
     "bg-transparent border-transparent text-red-400 hover:text-red-300 hover:bg-red-500/10",
   rose:
-    "bg-rose-500 text-white hover:bg-rose-600 border-transparent shadow-[0_0_20px_rgba(244,63,94,0.15)]",
+    "bg-rose-500 text-white hover:bg-rose-600 border-transparent shadow-[0_10px_28px_rgba(244,63,94,0.16)]",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -43,7 +43,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center rounded-lg border font-medium transition-all duration-200 ease-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]";
+    "inline-flex items-center justify-center rounded-lg border font-semibold transition-all duration-200 ease-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0f9f8a]/30 focus:ring-offset-2 focus:ring-offset-[#f6f7f2] disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.97]";
 
   return (
     <button

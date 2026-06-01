@@ -85,8 +85,8 @@ export default function VerifyEmail({
     return (
       <AuthLayout>
         <div className="flex flex-col items-center justify-center py-8">
-          <Loader2 size={40} className="text-[#6366f1] animate-spin mb-4" />
-          <p className="text-white font-medium">Verifying your email...</p>
+          <Loader2 size={40} className="text-[#0f9f8a] animate-spin mb-4" />
+          <p className="text-[#17231d] font-medium">Verifying your email...</p>
         </div>
       </AuthLayout>
     );
@@ -98,7 +98,7 @@ export default function VerifyEmail({
         <div className="relative text-center py-4">
           {/* {locked && (
             <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40">
-              <Loader2 size={36} className="animate-spin text-white" />
+              <Loader2 size={36} className="animate-spin text-[#17231d]" />
             </div>
           )} */}
           <div
@@ -109,10 +109,10 @@ export default function VerifyEmail({
           >
             <CheckCircle2 size={32} className="text-emerald-400" />
           </div>
-          <h2 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-[#17231d] mb-2">
             Email Verified!
           </h2>
-          <p className="text-sm text-[#71717a] mb-6">
+          <p className="text-sm text-[#566a60] mb-6">
             Your account has been successfully verified. You can now sign in to
             PollPulse.
           </p>
@@ -139,10 +139,10 @@ export default function VerifyEmail({
         >
           <XCircle size={32} className="text-red-400" />
         </div>
-        <h2 className="text-xl font-semibold text-white mb-2">
+        <h2 className="text-xl font-semibold text-[#17231d] mb-2">
           Verification failed
         </h2>
-        <p className="text-sm text-[#71717a] mb-6">
+        <p className="text-sm text-[#566a60] mb-6">
           This verification link is invalid or has already been used. Please
           register again or contact support.
         </p>

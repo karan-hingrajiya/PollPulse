@@ -108,11 +108,11 @@ function StatusScreen({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen pollpulse-page flex flex-col items-center justify-center px-4">
       <div className="w-full max-w-sm text-center">
         <div className="mb-4">{icon}</div>
-        <h2 className="text-xl font-semibold text-white mb-2">{title}</h2>
-        <p className="text-sm text-[#71717a] mb-6">{description}</p>
+        <h2 className="text-xl font-semibold text-[#17231d] mb-2">{title}</h2>
+        <p className="text-sm text-[#566a60] mb-6">{description}</p>
         {action}
       </div>
     </div>
@@ -306,8 +306,8 @@ const redirectToLogin = () => {
     return (
       <StatusScreen
         icon={
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#1a1a1a]">
-            <Loader2 size={28} className="text-[#6366f1] animate-spin" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#ffffff]">
+            <Loader2 size={28} className="text-[#0f9f8a] animate-spin" />
           </div>
         }
         title="Loading poll..."
@@ -348,8 +348,8 @@ const redirectToLogin = () => {
     return (
       <StatusScreen
         icon={
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#6366f1]/10">
-            <ShieldCheck size={28} className="text-[#818cf8]" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#0f9f8a]/10">
+            <ShieldCheck size={28} className="text-[#0f766e]" />
           </div>
         }
         title="Login required"
@@ -413,13 +413,13 @@ const redirectToLogin = () => {
   if (!poll) return null;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] py-8 px-4">
+    <div className="min-h-screen pollpulse-page py-8 px-4">
       {/* Background glow */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99,102,241,0.06), transparent)",
+            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(15,159,138,0.06), transparent)",
         }}
       />
 
@@ -427,13 +427,13 @@ const redirectToLogin = () => {
         {/* Logo */}
         <div className="flex items-center gap-2 mb-8">
           <PollPulseLogo size={24} />
-          <span className="text-sm font-semibold text-white">PollPulse</span>
+          <span className="text-sm font-semibold text-[#17231d]">PollPulse</span>
         </div>
 
         {/* Poll header */}
         <div className="mb-6">
           {poll.isAnonymous ? (
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#6366f1]/10 border border-[#6366f1]/20 rounded-full text-xs text-[#818cf8] font-medium mb-3">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 rounded-full text-xs text-[#0f766e] font-medium mb-3">
               <ShieldCheck size={11} />
               Anonymous poll
             </div>
@@ -444,14 +444,14 @@ const redirectToLogin = () => {
             </div>
           )}
 
-          <h1 className="text-2xl font-bold text-white">{poll.title}</h1>
+          <h1 className="text-2xl font-bold text-[#17231d]">{poll.title}</h1>
           {poll.description && (
-            <p className="text-sm text-[#71717a] mt-2 leading-relaxed">
+            <p className="text-sm text-[#566a60] mt-2 leading-relaxed">
               {poll.description}
             </p>
           )}
 
-          <div className="flex items-center gap-3 mt-3 text-xs text-[#52525b]">
+          <div className="flex items-center gap-3 mt-3 text-xs text-[#66786f]">
             <span className="flex items-center gap-1">
               <Clock size={11} />
               Closes {formatExpiry(poll.expiresAt)}
@@ -468,7 +468,7 @@ const redirectToLogin = () => {
         {/* Progress indicator */}
         {poll.questions.length > 0 && (
           <div className="mb-5">
-            <div className="flex justify-between text-xs text-[#52525b] mb-1.5">
+            <div className="flex justify-between text-xs text-[#66786f] mb-1.5">
               <span>
                 {answeredCount} of {poll.questions.length} answered
               </span>
@@ -482,9 +482,9 @@ const redirectToLogin = () => {
                 </span>
               )}
             </div>
-            <div className="h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
+            <div className="h-1.5 bg-[#d7e1da] rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#6366f1] rounded-full transition-all duration-500"
+                className="h-full bg-[#0f9f8a] rounded-full transition-all duration-500"
                 style={{
                   width: `${(answeredCount / poll.questions.length) * 100}%`,
                 }}
@@ -499,11 +499,11 @@ const redirectToLogin = () => {
             <Card key={q._id} className="p-5">
               {/* Question text */}
               <div className="flex items-start gap-3 mb-4">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center text-xs font-semibold text-[#a1a1aa]">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#ffffff] border border-[#d7e1da] flex items-center justify-center text-xs font-semibold text-[#43554b]">
                   {qi + 1}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-white leading-snug">
+                  <p className="text-sm font-semibold text-[#17231d] leading-snug">
                     {q.text}
                     {q.isMandatory && (
                       <span className="text-red-400 ml-1">*</span>
@@ -529,15 +529,15 @@ const redirectToLogin = () => {
                       onClick={() => selectOption(q._id, opt._id)}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border text-left text-sm transition-all duration-150 ${
                         isSelected
-                          ? "bg-[#6366f1]/10 border-[#6366f1]/50 text-white"
-                          : "bg-[#111] border-[#2a2a2a] text-[#a1a1aa] hover:border-[#3a3a3a] hover:text-white"
+                          ? "bg-[#0f9f8a]/10 border-[#0f9f8a]/50 text-[#17231d]"
+                          : "bg-white/70 border-[#d7e1da] text-[#43554b] hover:border-[#b6c5bb] hover:text-[#0f6f61]"
                       }`}
                     >
                       <span
                         className={`flex-shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
                           isSelected
-                            ? "border-[#6366f1] bg-[#6366f1]"
-                            : "border-[#3a3a3a]"
+                            ? "border-[#0f9f8a] bg-[#0f9f8a]"
+                            : "border-[#b6c5bb]"
                         }`}
                       >
                         {isSelected && (
@@ -564,7 +564,7 @@ const redirectToLogin = () => {
         {/* Submit */}
         <div className="mt-6 pb-8">
           {totalRequired > 0 && requiredAnswered < totalRequired && (
-            <p className="text-xs text-[#52525b] text-center mb-3">
+            <p className="text-xs text-[#66786f] text-center mb-3">
               Answer {totalRequired - requiredAnswered} more required question
               {totalRequired - requiredAnswered !== 1 ? "s" : ""} to submit
             </p>

@@ -22,7 +22,7 @@ import Button from "@/components/pollpulse/Button";
 
 const DEMO_QUESTION = "What's your preferred way to collect team feedback?";
 const DEMO_OPTIONS = [
-  { id: "a", label: "Quick online polls", votes: 1203, color: "bg-[#6366f1]" },
+  { id: "a", label: "Quick online polls", votes: 1203, color: "bg-[#0f9f8a]" },
   { id: "b", label: "Long email surveys", votes: 421, color: "bg-sky-500" },
   { id: "c", label: "In-person meetings", votes: 234, color: "bg-emerald-500" },
   { id: "d", label: "Anonymous forms", votes: 847, color: "bg-amber-500" },
@@ -93,22 +93,22 @@ function DemoPoll() {
     <motion.div
       animate={{ y: [0, -8, 0] }}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 shadow-[0_0_80px_rgba(99,102,241,0.12)]"
+      className="bg-[#ffffff] border border-[#d7e1da] rounded-2xl p-6 shadow-[0_22px_55px_rgba(24,43,35,0.10)]"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#6366f1]/10 border border-[#6366f1]/20 rounded-full">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#6366f1] animate-pulse" />
-          <span className="text-xs text-[#818cf8] font-medium">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 rounded-full">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#0f9f8a] animate-pulse" />
+          <span className="text-xs text-[#0f766e] font-medium">
             Try it live
           </span>
         </div>
-        <span className="text-xs text-[#52525b]">
+        <span className="text-xs text-[#66786f]">
           {total.toLocaleString()} responses
         </span>
       </div>
 
-      <p className="text-sm font-semibold text-white mb-4 leading-snug">
+      <p className="text-sm font-semibold text-[#17231d] mb-4 leading-snug">
         {DEMO_QUESTION}
       </p>
 
@@ -124,7 +124,7 @@ function DemoPoll() {
               onClick={() => !submitted && setSelected(opt.id)}
               disabled={submitted}
               className={`w-full text-left rounded-xl border transition-all duration-200 overflow-hidden
-                ${isSelected ? "border-[#6366f1]/50" : "border-[#2a2a2a] hover:border-[#3a3a3a]"}`}
+                ${isSelected ? "border-[#0f9f8a]/50" : "border-[#d7e1da] hover:border-[#b6c5bb]"}`}
             >
               <div className="relative px-3 py-2.5">
                 {submitted && (
@@ -139,7 +139,7 @@ function DemoPoll() {
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span
                       className={`flex-shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all
-                        ${isSelected ? "border-[#6366f1] bg-[#6366f1]" : "border-[#3a3a3a]"}`}
+                        ${isSelected ? "border-[#0f9f8a] bg-[#0f9f8a]" : "border-[#b6c5bb]"}`}
                     >
                       {isSelected && (
                         <span className="w-1.5 h-1.5 rounded-full bg-white" />
@@ -148,8 +148,8 @@ function DemoPoll() {
                     <span
                       className={`text-sm truncate transition-colors ${
                         isSelected || submitted
-                          ? "text-white"
-                          : "text-[#a1a1aa]"
+                          ? "text-[#17231d]"
+                          : "text-[#43554b]"
                       }`}
                     >
                       {opt.label}
@@ -165,7 +165,7 @@ function DemoPoll() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.6 }}
-                      className="text-xs font-semibold text-white shrink-0"
+                      className="text-xs font-semibold text-[#17231d] shrink-0"
                     >
                       {pct}%
                     </motion.span>
@@ -187,8 +187,8 @@ function DemoPoll() {
               className={`w-full py-2.5 rounded-xl text-sm font-medium transition-all
                 ${
                   selected
-                    ? "bg-[#6366f1] text-white hover:bg-[#5558e0] shadow-[0_0_20px_rgba(99,102,241,0.3)]"
-                    : "bg-[#1a1a1a] text-[#52525b] cursor-not-allowed border border-[#2a2a2a]"
+                    ? "bg-[#0f9f8a] text-white hover:bg-[#0b8574] shadow-[0_12px_30px_rgba(15,159,138,0.22)]"
+                    : "bg-[#ffffff] text-[#66786f] cursor-not-allowed border border-[#d7e1da]"
                 }`}
             >
               {selected ? "Submit Response" : "Select an option"}
@@ -234,8 +234,8 @@ function FeatureCard({
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      className="group relative bg-[#111111] border border-[#1e1e1e] rounded-2xl p-6 
-        hover:border-[#2a2a2a] transition-all duration-300 overflow-hidden"
+      className="group relative bg-[#ffffff] border border-[#d7e1da] rounded-2xl p-6 
+        hover:border-[#d7e1da] transition-all duration-300 overflow-hidden"
     >
       {/* Glow on hover */}
       <div
@@ -248,8 +248,8 @@ function FeatureCard({
         <div className={`inline-flex p-3 rounded-xl mb-4 border ${iconBg}`}>
           {icon}
         </div>
-        <h3 className="text-sm font-semibold text-white mb-2">{title}</h3>
-        <p className="text-sm text-[#71717a] leading-relaxed">{desc}</p>
+        <h3 className="text-sm font-semibold text-[#17231d] mb-2">{title}</h3>
+        <p className="text-sm text-[#566a60] leading-relaxed">{desc}</p>
       </div>
     </motion.div>
   );
@@ -281,17 +281,17 @@ function StepCard({
       transition={{ duration: 0.6, delay }}
       className="flex flex-col gap-4"
     >
-      <div className="bg-[#111111] border border-[#1e1e1e] rounded-2xl p-6 h-52 flex items-center justify-center overflow-hidden">
+      <div className="bg-[#ffffff] border border-[#d7e1da] rounded-2xl p-6 h-52 flex items-center justify-center overflow-hidden">
         {visual}
       </div>
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <span className="w-7 h-7 rounded-full bg-[#6366f1]/10 border border-[#6366f1]/20 flex items-center justify-center text-xs font-bold text-[#818cf8] shrink-0">
+          <span className="w-7 h-7 rounded-full bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 flex items-center justify-center text-xs font-bold text-[#0f766e] shrink-0">
             {number}
           </span>
-          <h3 className="text-sm font-semibold text-white">{title}</h3>
+          <h3 className="text-sm font-semibold text-[#17231d]">{title}</h3>
         </div>
-        <p className="text-sm text-[#71717a] leading-relaxed pl-10">{desc}</p>
+        <p className="text-sm text-[#566a60] leading-relaxed pl-10">{desc}</p>
       </div>
     </motion.div>
   );
@@ -311,11 +311,11 @@ function CreateVisual() {
     <div className="w-full h-full flex items-center justify-center">
       <div className="w-[200px] space-y-2">
         {/* Poll card */}
-        <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-xl p-3 space-y-2">
+        <div className="pollpulse-page border border-[#d7e1da] rounded-xl p-3 space-y-2">
           {/* Title bar */}
           <div className="flex items-center gap-1.5 mb-3">
-            <div className="w-2 h-2 rounded-full bg-[#6366f1]/40" />
-            <div className="h-2 bg-[#2a2a2a] rounded-full w-24" />
+            <div className="w-2 h-2 rounded-full bg-[#0f9f8a]/40" />
+            <div className="h-2 bg-[#d7e1da] rounded-full w-24" />
           </div>
 
           {/* Questions appearing */}
@@ -332,19 +332,19 @@ function CreateVisual() {
               }}
               className="overflow-hidden"
             >
-              <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg p-2 space-y-1.5">
+              <div className="bg-[#ffffff] border border-[#d7e1da] rounded-lg p-2 space-y-1.5">
                 <div
-                  className="h-1.5 bg-[#3a3a3a] rounded-full"
+                  className="h-1.5 bg-[#b6c5bb] rounded-full"
                   style={{ width: q.w }}
                 />
                 <div className="flex gap-1.5">
                   {["A", "B", "C"].map((letter) => (
                     <div
                       key={letter}
-                      className="flex items-center gap-1 bg-[#111] border border-[#2a2a2a] rounded px-1.5 py-0.5"
+                      className="flex items-center gap-1 bg-white/70 border border-[#d7e1da] rounded px-1.5 py-0.5"
                     >
-                      <div className="w-1.5 h-1.5 rounded-full border border-[#3a3a3a]" />
-                      <div className="h-1 w-6 bg-[#2a2a2a] rounded-full" />
+                      <div className="w-1.5 h-1.5 rounded-full border border-[#b6c5bb]" />
+                      <div className="h-1 w-6 bg-[#d7e1da] rounded-full" />
                     </div>
                   ))}
                 </div>
@@ -356,9 +356,9 @@ function CreateVisual() {
           <motion.div
             animate={{ scale: [1, 1.03, 1], opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 2, repeat: Infinity, delay: 2 }}
-            className="flex items-center justify-center gap-1 bg-[#6366f1]/10 border border-[#6366f1]/30 rounded-lg py-1.5 mt-1"
+            className="flex items-center justify-center gap-1 bg-[#0f9f8a]/10 border border-[#0f9f8a]/30 rounded-lg py-1.5 mt-1"
           >
-            <span className="text-[#818cf8] text-xs font-medium">
+            <span className="text-[#0f766e] text-xs font-medium">
               + Add question
             </span>
           </motion.div>
@@ -369,12 +369,12 @@ function CreateVisual() {
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 1, 0] }}
           transition={{ duration: 4, repeat: Infinity, delay: 1.5 }}
-          className="flex items-center justify-between bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg px-3 py-1.5"
+          className="flex items-center justify-between pollpulse-page border border-[#d7e1da] rounded-lg px-3 py-1.5"
         >
-          <span className="text-[10px] text-[#71717a]">Required question</span>
+          <span className="text-[10px] text-[#566a60]">Required question</span>
           <motion.div
             animate={{
-              backgroundColor: ["#2a2a2a", "#6366f1", "#6366f1", "#2a2a2a"],
+              backgroundColor: ["#d7e1da", "#0f9f8a", "#0f9f8a", "#d7e1da"],
             }}
             transition={{ duration: 4, repeat: Infinity, delay: 2 }}
             className="w-6 h-3.5 rounded-full relative"
@@ -414,9 +414,9 @@ function ShareVisual() {
     <div className="w-full h-full flex flex-col items-center justify-center gap-5">
       {/* URL bar */}
       <div className="w-[220px]">
-        <div className="flex items-center gap-2 bg-[#0f0f0f] border border-[#2a2a2a] rounded-xl px-3 py-2.5">
+        <div className="flex items-center gap-2 pollpulse-page border border-[#d7e1da] rounded-xl px-3 py-2.5">
           <div className="w-2 h-2 rounded-full bg-emerald-500/60 shrink-0" />
-          <span className="text-[10px] text-[#52525b] flex-1 truncate font-mono">
+          <span className="text-[10px] text-[#66786f] flex-1 truncate font-mono">
             pollpulse.app/poll/x9f2k...
           </span>
           <motion.button
@@ -425,11 +425,11 @@ function ShareVisual() {
                 ? { scale: [1, 0.9, 1.05, 1] }
                 : phase >= 2
                   ? { backgroundColor: "#059669" }
-                  : { backgroundColor: "#6366f1" }
+                  : { backgroundColor: "#0f9f8a" }
             }
             transition={{ duration: 0.3 }}
             className="shrink-0 px-2 py-0.5 rounded-md text-[10px] text-white font-medium"
-            style={{ backgroundColor: "#6366f1" }}
+            style={{ backgroundColor: "#0f9f8a" }}
           >
             {phase >= 2 ? "✓" : "Copy"}
           </motion.button>
@@ -443,7 +443,7 @@ function ShareVisual() {
               animate={{ opacity: 0, scale: 1.08 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="absolute inset-0 rounded-xl border border-[#6366f1]/50 pointer-events-none"
+              className="absolute inset-0 rounded-xl border border-[#0f9f8a]/50 pointer-events-none"
             />
           )}
         </AnimatePresence>
@@ -509,10 +509,10 @@ function ShareVisual() {
             animate={
               phase >= 3
                 ? {
-                    color: "#818cf8",
-                    filter: "drop-shadow(0 0 6px rgba(99,102,241,0.6))",
+                    color: "#0f766e",
+                    filter: "drop-shadow(0 0 6px rgba(15,159,138,0.6))",
                   }
-                : { color: "#2a2a2a", filter: "none" }
+                : { color: "#d7e1da", filter: "none" }
             }
             transition={{ duration: 0.4, delay }}
             className="flex flex-col items-center gap-1"
@@ -525,7 +525,7 @@ function ShareVisual() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ delay }}
-                  className="text-[9px] text-[#6366f1]"
+                  className="text-[9px] text-[#0f9f8a]"
                 >
                   ✓
                 </motion.span>
@@ -538,7 +538,7 @@ function ShareVisual() {
       <motion.p
         animate={{ opacity: phase >= 2 ? 1 : 0 }}
         transition={{ duration: 0.3 }}
-        className="text-[10px] text-[#52525b] text-center"
+        className="text-[10px] text-[#66786f] text-center"
       >
         Anyone with the link can respond
       </motion.p>
@@ -550,10 +550,10 @@ function ShareVisual() {
 
 function AnalyticsVisual() {
   const bars = [
-    { label: "Option A", pct: 48, color: "#6366f1" },
-    { label: "Option B", pct: 27, color: "#818cf8" },
-    { label: "Option C", pct: 16, color: "#a5b4fc" },
-    { label: "Option D", pct: 9, color: "#c4b5fd" },
+    { label: "Option A", pct: 48, color: "#0f9f8a" },
+    { label: "Option B", pct: 27, color: "#0f766e" },
+    { label: "Option C", pct: 16, color: "#38bdf8" },
+    { label: "Option D", pct: 9, color: "#f59e0b" },
   ];
 
   return (
@@ -561,7 +561,7 @@ function AnalyticsVisual() {
       <div className="w-full max-w-[210px] space-y-2">
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
-          <span className="text-[10px] text-[#52525b] font-medium">
+          <span className="text-[10px] text-[#66786f] font-medium">
             Live results
           </span>
           <div className="flex items-center gap-1">
@@ -574,7 +574,7 @@ function AnalyticsVisual() {
         {bars.map((bar, i) => (
           <div key={bar.label} className="space-y-1">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] text-[#71717a]">{bar.label}</span>
+              <span className="text-[10px] text-[#566a60]">{bar.label}</span>
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -583,12 +583,12 @@ function AnalyticsVisual() {
                   repeat: Infinity,
                   repeatDelay: 3,
                 }}
-                className="text-[10px] font-semibold text-white"
+                className="text-[10px] font-semibold text-[#17231d]"
               >
                 {bar.pct}%
               </motion.span>
             </div>
-            <div className="h-4 bg-[#1a1a1a] rounded-full overflow-hidden relative">
+            <div className="h-4 bg-[#ffffff] rounded-full overflow-hidden relative">
               <motion.div
                 className="h-full rounded-full flex items-center justify-end pr-1.5"
                 style={{ backgroundColor: bar.color }}
@@ -607,7 +607,7 @@ function AnalyticsVisual() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 + i * 0.12 }}
-                    className="text-[9px] text-white/80 font-medium"
+                    className="text-[9px] text-white/90 font-medium"
                   >
                     {bar.pct}%
                   </motion.span>
@@ -622,7 +622,7 @@ function AnalyticsVisual() {
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: [0, 1, 1, 0], y: [4, 0, 0, 4] }}
           transition={{ duration: 3.5, repeat: Infinity, delay: 1.2 }}
-          className="flex items-center gap-1.5 mt-1 pt-2 border-t border-[#1a1a1a]"
+          className="flex items-center gap-1.5 mt-1 pt-2 border-t border-[#ffffff]"
         >
           <CheckCircle2 size={11} className="text-emerald-400" />
           <span className="text-[10px] text-emerald-400 font-medium">
@@ -640,7 +640,7 @@ function LiveStatsBar() {
   const { stats, isLoading, isConnected } = useLiveStats();
 
   return (
-    <section className="relative z-10 border-y border-[#1a1a1a]">
+    <section className="relative z-10 border-y border-[#ffffff]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-2 gap-6 max-w-xl mx-auto">
           {[
@@ -655,14 +655,14 @@ function LiveStatsBar() {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"
-                  className="text-[#818cf8]"
+                  className="text-[#0f766e]"
                 >
                   <rect x="6" y="3" width="12" height="18" rx="2" />
                   <path d="M9 7h6M9 11h6M9 15h4" />
                 </svg>
               ),
-              accent: "text-[#818cf8]",
-              bg: "bg-[#6366f1]/10 border-[#6366f1]/20",
+              accent: "text-[#0f766e]",
+              bg: "bg-[#0f9f8a]/10 border-[#0f9f8a]/20",
             },
             {
               label: "Responses Collected",
@@ -689,14 +689,14 @@ function LiveStatsBar() {
           ].map(({ label, value, icon, accent, bg }) => (
             <div
               key={label}
-              className="flex items-center gap-4 bg-[#111111] border border-[#1e1e1e] rounded-2xl px-5 py-4"
+              className="flex items-center gap-4 bg-[#ffffff] border border-[#d7e1da] rounded-2xl px-5 py-4"
             >
               <div className={`p-2.5 rounded-xl border ${bg} shrink-0`}>
                 {icon}
               </div>
               <div className="min-w-0">
                 {isLoading ? (
-                  <div className="h-7 w-16 bg-[#2a2a2a] rounded-lg animate-pulse mb-1" />
+                  <div className="h-7 w-16 bg-[#d7e1da] rounded-lg animate-pulse mb-1" />
                 ) : (
                   <motion.p
                     key={label}
@@ -708,7 +708,7 @@ function LiveStatsBar() {
                     <AnimatedCounter to={value} />
                   </motion.p>
                 )}
-                <p className="text-xs text-[#71717a] font-medium">{label}</p>
+                <p className="text-xs text-[#566a60] font-medium">{label}</p>
               </div>
             </div>
           ))}
@@ -718,10 +718,10 @@ function LiveStatsBar() {
         <div className="flex items-center justify-center gap-1.5 mt-4">
           <span
             className={`w-1.5 h-1.5 rounded-full ${
-              isConnected ? "bg-emerald-400 animate-pulse" : "bg-[#3a3a3a]"
+              isConnected ? "bg-emerald-400 animate-pulse" : "bg-[#b6c5bb]"
             }`}
           />
-          <span className="text-xs text-[#3a3a3a]">
+          <span className="text-xs text-[#b6c5bb]">
             {isConnected ? "Updating live" : "Live data"}
           </span>
         </div>
@@ -736,29 +736,20 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+    <div className="min-h-screen pollpulse-page text-[#17231d] overflow-x-hidden">
       {/* ── Global background effects ── */}
       <div className="fixed inset-0 pointer-events-none">
         {/* Dot grid */}
         <div
           className="absolute inset-0 opacity-[0.35]"
           style={{
-            backgroundImage: `radial-gradient(circle, #2a2a2a 1px, transparent 1px)`,
+            backgroundImage: `radial-gradient(circle, #d7e1da 1px, transparent 1px)`,
             backgroundSize: "32px 32px",
           }}
         />
-        {/* Top glow */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[120px]"
-          style={{
-            background:
-              "radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%)",
-          }}
-        />
-        {/* Bottom left glow */}
-        <div className="absolute bottom-1/3 -left-48 w-96 h-96 bg-violet-600/5 rounded-full blur-[100px]" />
-        {/* Bottom right glow */}
-        <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-sky-600/5 rounded-full blur-[100px]" />
+        <div className="absolute -top-24 left-1/2 h-[360px] w-[760px] -translate-x-1/2 rounded-full pollpulse-aurora opacity-75" />
+        <div className="absolute bottom-1/3 -left-24 h-56 w-56 rotate-12 rounded-[2rem] border border-[#b8ded6] bg-white/35" />
+        <div className="absolute bottom-1/4 -right-24 h-64 w-64 -rotate-6 rounded-[2rem] border border-sky-200 bg-sky-100/30" />
       </div>
 
       {/* ══════════════════════════════════════════ NAVBAR ══ */}
@@ -778,7 +769,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#6366f1]/10 border border-[#6366f1]/20 rounded-full text-xs text-[#818cf8] font-medium mb-6"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 rounded-full text-xs text-[#0f766e] font-medium mb-6"
             >
               <Zap size={11} />
               Real-time polling for modern teams
@@ -795,7 +786,7 @@ export default function LandingPage() {
                 className="inline-block"
                 style={{
                   background:
-                    "linear-gradient(135deg, #818cf8 0%, #a5b4fc 50%, #c4b5fd 100%)",
+                    "linear-gradient(135deg, #0f766e 0%, #38bdf8 50%, #f59e0b 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -810,7 +801,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-[#71717a] leading-relaxed mb-8 max-w-lg"
+              className="text-lg text-[#566a60] leading-relaxed mb-8 max-w-lg"
             >
               Create polls in seconds, share a single link, and watch responses
               roll in with live analytics. No setup, no friction — just answers.
@@ -824,7 +815,7 @@ export default function LandingPage() {
             >
               <Button
                 onClick={() => navigate("/register")}
-                className="gap-2 px-6 py-3 text-base shadow-[0_0_30px_rgba(99,102,241,0.25)]"
+                className="gap-2 px-6 py-3 text-base shadow-[0_16px_36px_rgba(15,159,138,0.24)]"
                 size="lg"
               >
                 Create your first poll
@@ -850,7 +841,7 @@ export default function LandingPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="flex flex-wrap items-center gap-4 text-xs text-[#52525b]"
+              className="flex flex-wrap items-center gap-4 text-xs text-[#66786f]"
             >
               {[
                 { icon: <Shield size={12} />, label: "Anonymous mode" },
@@ -858,7 +849,7 @@ export default function LandingPage() {
                 { icon: <Activity size={12} />, label: "Live analytics" },
               ].map(({ icon, label }) => (
                 <span key={label} className="flex items-center gap-1.5">
-                  <span className="text-[#3a3a3a]">{icon}</span>
+                  <span className="text-[#b6c5bb]">{icon}</span>
                   {label}
                 </span>
               ))}
@@ -889,7 +880,7 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-xs font-semibold text-[#6366f1] uppercase tracking-widest mb-3"
+            className="text-xs font-semibold text-[#0f9f8a] uppercase tracking-widest mb-3"
           >
             Everything you need
           </motion.p>
@@ -907,7 +898,7 @@ export default function LandingPage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-[#71717a] mt-3 max-w-lg mx-auto text-sm leading-relaxed"
+            className="text-[#566a60] mt-3 max-w-lg mx-auto text-sm leading-relaxed"
           >
             From quick team check-ins to large-scale feedback collection —
             PollPulse handles every scenario without getting in your way.
@@ -917,10 +908,10 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             {
-              icon: <Shield size={18} className="text-[#818cf8]" />,
+              icon: <Shield size={18} className="text-[#0f766e]" />,
               title: "Anonymous & Authenticated Modes",
               desc: "Choose whether respondents need to log in or can answer completely anonymously. Fingerprinting prevents duplicate submissions either way.",
-              iconBg: "bg-[#6366f1]/10 border-[#6366f1]/20",
+              iconBg: "bg-[#0f9f8a]/10 border-[#0f9f8a]/20",
               delay: 0,
             },
             {
@@ -945,10 +936,10 @@ export default function LandingPage() {
               delay: 0.24,
             },
             {
-              icon: <CheckCircle2 size={18} className="text-violet-400" />,
+              icon: <CheckCircle2 size={18} className="text-cyan-600" />,
               title: "Mandatory & Optional Questions",
               desc: "Mark specific questions as required. Respondents can skip optional questions but must answer mandatory ones before submitting.",
-              iconBg: "bg-violet-500/10 border-violet-500/20",
+              iconBg: "bg-cyan-50 border-cyan-200",
               delay: 0.32,
             },
             {
@@ -967,7 +958,7 @@ export default function LandingPage() {
       {/* ══════════════════════════════════════════ HOW IT WORKS ══ */}
       <section
         id="how-it-works"
-        className="relative z-10 border-t border-[#1a1a1a]"
+        className="relative z-10 border-t border-[#ffffff]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-14">
@@ -975,7 +966,7 @@ export default function LandingPage() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-xs font-semibold text-[#6366f1] uppercase tracking-widest mb-3"
+              className="text-xs font-semibold text-[#0f9f8a] uppercase tracking-widest mb-3"
             >
               Simple by design
             </motion.p>
@@ -1020,14 +1011,14 @@ export default function LandingPage() {
 
       {/* ══════════════════════════════════════════ SOCIAL PROOF ══ */}
       {/* ══════════════════════════════════════════ DASHBOARD PREVIEW ══ */}
-      <section className="relative z-10 border-t border-[#1a1a1a] overflow-hidden">
+      <section className="relative z-10 border-t border-[#ffffff] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center mb-12">
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-xs font-semibold text-[#6366f1] uppercase tracking-widest mb-3"
+              className="text-xs font-semibold text-[#0f9f8a] uppercase tracking-widest mb-3"
             >
               Your command center
             </motion.p>
@@ -1045,7 +1036,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-[#71717a] mt-3 max-w-md mx-auto text-sm"
+              className="text-[#566a60] mt-3 max-w-md mx-auto text-sm"
             >
               See all your polls, track live response counts, drill into
               question breakdowns, and publish results — from one clean
@@ -1066,22 +1057,22 @@ export default function LandingPage() {
               className="absolute inset-0 rounded-2xl pointer-events-none"
               style={{
                 background:
-                  "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(99,102,241,0.12), transparent)",
+                  "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(15,159,138,0.12), transparent)",
                 filter: "blur(20px)",
                 transform: "translateY(10%)",
               }}
             />
 
             {/* Browser chrome */}
-            <div className="relative bg-[#0f0f0f] border border-[#2a2a2a] rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.6)]">
+            <div className="relative pollpulse-page border border-[#d7e1da] rounded-2xl overflow-hidden shadow-[0_24px_70px_rgba(24,43,35,0.14)]">
               {/* Browser bar */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#111111] border-b border-[#1e1e1e]">
+              <div className="flex items-center gap-2 px-4 py-3 bg-[#ffffff] border-b border-[#d7e1da]">
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500/40" />
                   <div className="w-2.5 h-2.5 rounded-full bg-amber-500/40" />
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
                 </div>
-                <div className="flex-1 mx-4 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md px-3 py-1 text-xs text-[#3a3a3a] font-mono">
+                <div className="flex-1 mx-4 bg-[#ffffff] border border-[#d7e1da] rounded-md px-3 py-1 text-xs text-[#b6c5bb] font-mono">
                   pollpulse.app/dashboard
                 </div>
               </div>
@@ -1094,8 +1085,8 @@ export default function LandingPage() {
                     {
                       label: "Total Polls",
                       value: "12",
-                      color: "text-[#818cf8]",
-                      bg: "bg-[#6366f1]/10 border-[#6366f1]/20",
+                      color: "text-[#0f766e]",
+                      bg: "bg-[#0f9f8a]/10 border-[#0f9f8a]/20",
                     },
                     {
                       label: "Live Now",
@@ -1118,9 +1109,9 @@ export default function LandingPage() {
                   ].map(({ label, value, color }) => (
                     <div
                       key={label}
-                      className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-3"
+                      className="bg-[#ffffff] border border-[#d7e1da] rounded-xl p-3"
                     >
-                      <p className="text-[10px] text-[#52525b] mb-1">{label}</p>
+                      <p className="text-[10px] text-[#66786f] mb-1">{label}</p>
                       <p className={`text-xl font-bold ${color}`}>{value}</p>
                     </div>
                   ))}
@@ -1142,16 +1133,16 @@ export default function LandingPage() {
                       responses: 128,
                       status: "Published",
                       statusColor:
-                        "text-[#818cf8] bg-[#6366f1]/10 border-[#6366f1]/20",
+                        "text-[#0f766e] bg-[#0f9f8a]/10 border-[#0f9f8a]/20",
                       barPct: 89,
                     },
                   ].map((poll) => (
                     <div
                       key={poll.title}
-                      className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-3 space-y-2"
+                      className="bg-[#ffffff] border border-[#d7e1da] rounded-xl p-3 space-y-2"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <p className="text-xs font-semibold text-white leading-snug flex-1">
+                        <p className="text-xs font-semibold text-[#17231d] leading-snug flex-1">
                           {poll.title}
                         </p>
                         <span
@@ -1161,13 +1152,13 @@ export default function LandingPage() {
                         </span>
                       </div>
                       <div className="space-y-1">
-                        <div className="flex justify-between text-[10px] text-[#52525b]">
+                        <div className="flex justify-between text-[10px] text-[#66786f]">
                           <span>{poll.responses} responses</span>
                           <span>{poll.barPct}%</span>
                         </div>
-                        <div className="h-1.5 bg-[#111] rounded-full overflow-hidden">
+                        <div className="h-1.5 bg-white/70 rounded-full overflow-hidden">
                           <motion.div
-                            className="h-full bg-[#6366f1] rounded-full"
+                            className="h-full bg-[#0f9f8a] rounded-full"
                             initial={{ width: 0 }}
                             whileInView={{ width: `${poll.barPct}%` }}
                             viewport={{ once: true }}
@@ -1176,11 +1167,11 @@ export default function LandingPage() {
                         </div>
                       </div>
                       <div className="flex gap-1.5">
-                        <div className="flex-1 flex items-center justify-center gap-1 bg-[#111] border border-[#2a2a2a] rounded-md py-1 text-[10px] text-[#6366f1]">
+                        <div className="flex-1 flex items-center justify-center gap-1 bg-white/70 border border-[#d7e1da] rounded-md py-1 text-[10px] text-[#0f9f8a]">
                           <BarChart3 size={9} />
                           Analytics
                         </div>
-                        <div className="flex-1 flex items-center justify-center gap-1 bg-[#111] border border-[#2a2a2a] rounded-md py-1 text-[10px] text-[#52525b]">
+                        <div className="flex-1 flex items-center justify-center gap-1 bg-white/70 border border-[#d7e1da] rounded-md py-1 text-[10px] text-[#66786f]">
                           <Share2 size={9} />
                           Share
                         </div>
@@ -1190,12 +1181,12 @@ export default function LandingPage() {
                 </div>
 
                 {/* Mini analytics row */}
-                <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-3">
+                <div className="bg-[#ffffff] border border-[#d7e1da] rounded-xl p-3">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-semibold text-white">
+                    <span className="text-xs font-semibold text-[#17231d]">
                       Q2 Retrospective — Question Breakdown
                     </span>
-                    <span className="text-[10px] text-[#52525b]">
+                    <span className="text-[10px] text-[#66786f]">
                       47 responses
                     </span>
                   </div>
@@ -1204,7 +1195,7 @@ export default function LandingPage() {
                       {
                         opt: "More async communication",
                         pct: 42,
-                        color: "bg-[#6366f1]",
+                        color: "bg-[#0f9f8a]",
                       },
                       {
                         opt: "Better sprint planning",
@@ -1218,10 +1209,10 @@ export default function LandingPage() {
                       },
                     ].map((item) => (
                       <div key={item.opt} className="flex items-center gap-3">
-                        <span className="text-[10px] text-[#71717a] w-36 shrink-0 truncate">
+                        <span className="text-[10px] text-[#566a60] w-36 shrink-0 truncate">
                           {item.opt}
                         </span>
-                        <div className="flex-1 h-2 bg-[#111] rounded-full overflow-hidden">
+                        <div className="flex-1 h-2 bg-white/70 rounded-full overflow-hidden">
                           <motion.div
                             className={`h-full rounded-full ${item.color}`}
                             initial={{ width: 0 }}
@@ -1230,7 +1221,7 @@ export default function LandingPage() {
                             transition={{ duration: 0.8, delay: 0.8 }}
                           />
                         </div>
-                        <span className="text-[10px] text-white font-medium w-8 text-right shrink-0">
+                        <span className="text-[10px] text-[#17231d] font-medium w-8 text-right shrink-0">
                           {item.pct}%
                         </span>
                       </div>
@@ -1244,10 +1235,10 @@ export default function LandingPage() {
             <motion.div
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-4 top-16 bg-[#111111] border border-[#2a2a2a] rounded-xl px-3 py-2 shadow-xl hidden lg:flex items-center gap-2"
+              className="absolute -right-4 top-16 bg-[#ffffff] border border-[#d7e1da] rounded-xl px-3 py-2 shadow-xl hidden lg:flex items-center gap-2"
             >
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-xs text-white font-medium">
+              <span className="text-xs text-[#17231d] font-medium">
                 Live response received
               </span>
             </motion.div>
@@ -1260,10 +1251,10 @@ export default function LandingPage() {
                 ease: "easeInOut",
                 delay: 1,
               }}
-              className="absolute -left-4 bottom-20 bg-[#111111] border border-[#2a2a2a] rounded-xl px-3 py-2 shadow-xl hidden lg:flex items-center gap-2"
+              className="absolute -left-4 bottom-20 bg-[#ffffff] border border-[#d7e1da] rounded-xl px-3 py-2 shadow-xl hidden lg:flex items-center gap-2"
             >
-              <Globe size={12} className="text-[#6366f1]" />
-              <span className="text-xs text-white font-medium">
+              <Globe size={12} className="text-[#0f9f8a]" />
+              <span className="text-xs text-[#17231d] font-medium">
                 Results published
               </span>
             </motion.div>
@@ -1272,7 +1263,7 @@ export default function LandingPage() {
       </section>
 
       {/* ══════════════════════════════════════════ CTA ══ */}
-      <section className="relative z-10 border-t border-[#1a1a1a]">
+      <section className="relative z-10 border-t border-[#ffffff]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -1285,23 +1276,23 @@ export default function LandingPage() {
               className="absolute inset-0 rounded-3xl pointer-events-none"
               style={{
                 background:
-                  "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(99,102,241,0.08), transparent)",
+                  "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(15,159,138,0.08), transparent)",
               }}
             />
 
             <div
-              className="relative border border-[#2a2a2a] rounded-3xl p-12"
+              className="relative border border-[#d7e1da] rounded-3xl p-12"
               style={{
-                background: "linear-gradient(135deg, #111111 0%, #0f0f0f 100%)",
+                background: "linear-gradient(135deg, #ffffff 0%, #f6f7f2 100%)",
               }}
             >
               {/* Decorative corners */}
-              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-[#6366f1]/30 rounded-tl-lg" />
-              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-[#6366f1]/30 rounded-tr-lg" />
-              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-[#6366f1]/30 rounded-bl-lg" />
-              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-[#6366f1]/30 rounded-br-lg" />
+              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-[#0f9f8a]/30 rounded-tl-lg" />
+              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-[#0f9f8a]/30 rounded-tr-lg" />
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-[#0f9f8a]/30 rounded-bl-lg" />
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-[#0f9f8a]/30 rounded-br-lg" />
 
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#6366f1]/10 border border-[#6366f1]/20 rounded-full text-xs text-[#818cf8] font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0f9f8a]/10 border border-[#0f9f8a]/20 rounded-full text-xs text-[#0f766e] font-medium mb-6">
                 <PollPulseLogo size={14} />
                 Start for free — no credit card needed
               </div>
@@ -1311,7 +1302,7 @@ export default function LandingPage() {
                 <br />
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #818cf8, #c4b5fd)",
+                    background: "linear-gradient(135deg, #0f766e, #f59e0b)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -1321,7 +1312,7 @@ export default function LandingPage() {
                 </span>
               </h2>
 
-              <p className="text-[#71717a] text-base mb-8 max-w-md mx-auto">
+              <p className="text-[#566a60] text-base mb-8 max-w-md mx-auto">
                 Create your first poll in under 2 minutes. No tutorials. No
                 onboarding. Just answers.
               </p>
@@ -1330,7 +1321,7 @@ export default function LandingPage() {
                 <Button
                   onClick={() => navigate("/register")}
                   size="lg"
-                  className="gap-2 px-8 shadow-[0_0_40px_rgba(99,102,241,0.3)]"
+                  className="gap-2 px-8 shadow-[0_18px_42px_rgba(15,159,138,0.24)]"
                 >
                   Create free account
                   <ArrowRight size={16} />
@@ -1350,25 +1341,25 @@ export default function LandingPage() {
       </section>
 
       {/* ══════════════════════════════════════════ FOOTER ══ */}
-      <footer className="relative z-10 border-t border-[#1a1a1a]">
+      <footer className="relative z-10 border-t border-[#ffffff]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <PollPulseLogo size={20} />
-              <span className="text-sm font-semibold text-white">
+              <span className="text-sm font-semibold text-[#17231d]">
                 PollPulse
               </span>
-              <span className="text-[#3a3a3a] text-xs ml-2">
+              <span className="text-[#b6c5bb] text-xs ml-2">
                 © {new Date().getFullYear()}
               </span>
             </div>
-            <div className="flex items-center gap-6 text-xs text-[#52525b]">
-              <Link to="/login" className="hover:text-white transition-colors">
+            <div className="flex items-center gap-6 text-xs text-[#66786f]">
+              <Link to="/login" className="hover:text-[#0f6f61] transition-colors">
                 Sign in
               </Link>
               <Link
                 to="/register"
-                className="hover:text-white transition-colors"
+                className="hover:text-[#0f6f61] transition-colors"
               >
                 Get started
               </Link>
