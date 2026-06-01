@@ -487,18 +487,23 @@ export default function PollAnalyticsPage() {
         {/* Results link row (published state only) */}
         {overview.isPublished && shareToken && (
           <div className="mb-8">
-            <div className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-xl px-4 py-3">
-              <Eye size={14} className="text-emerald-400 shrink-0" />
-              <span className="text-xs text-[#43554b] flex-1">
-                Public results page is live
-              </span>
+            <div className="flex items-center gap-4 bg-gradient-to-r from-emerald-50 to-emerald-100 border border-emerald-200 rounded-xl px-4 py-3 shadow-sm ring-1 ring-emerald-50">
+              <div className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-100 ring-1 ring-emerald-200 shrink-0">
+                <Eye size={16} className="text-emerald-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-emerald-700 truncate">
+                  Public results page is live
+                </p>
+                <p className="text-xs text-[#43554b]">Results are visible to anyone with the link</p>
+              </div>
               <a
                 href={`/poll/${shareToken}/results`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors shrink-0 ml-2"
+                className="inline-flex items-center gap-2 text-sm bg-emerald-600 text-white px-3 py-1.5 rounded-md hover:bg-emerald-700 transition-colors shrink-0 ml-2"
               >
-                View <ArrowRight size={11} />
+                View <ArrowRight size={12} />
               </a>
             </div>
           </div>
